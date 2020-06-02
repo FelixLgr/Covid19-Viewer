@@ -1,0 +1,31 @@
+<!doctype html>
+
+<html>
+
+<head>
+  <title>Riot todo</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="stylesheet" href="todo.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<body>
+
+
+  <input type="search" placeholder="Pays" name="the_search">
+  <resume></resume>
+
+  <script src="todo.riot" type="riot"></script>
+  <script src="https://cdn.jsdelivr.net/npm/riot@4/riot+compiler.min.js"></script>
+
+
+</body>
+
+<script>
+  riot.compile().then(() => {
+        riot.mount('resume', {
+        })
+      })
+</script>
+
+</html>
