@@ -3,39 +3,108 @@
 <html lang="fr">
 
 <head>
-  <title>Covid19 - Home</title>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="icon" href="assets/img/favicon.png">
+    <title>Covid19 - Home</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="icon" href="assets/img/favicon.png">
 
-  <link rel="stylesheet" href="assets/bootstrap-4.5.0/css/bootstrap.min.css">
-  <script src="assets/bootstrap-4.5.0/js/bootstrap.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="assets/bootstrap-4.5.0/css/bootstrap.min.css">
+    <script src="assets/bootstrap-4.5.0/js/bootstrap.js"></script>
+    <script src="assets/bootstrap-4.5.0/js/bootstrap.bundle.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/riot@4/riot+compiler.min.js"></script>
 
-  <link rel="stylesheet" href="assets/Fontawesome-5.13.0/css/all.css">
-  <script src="assets/Fontawesome-5.13.0/js/all.js"></script>
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="assets/Fontawesome-5.13.0/css/all.css">
+    <script src="assets/Fontawesome-5.13.0/js/all.js"></script>
+    <script src="todo.riot" type="riot"></script>
+    <script>
+        riot.compile().then(() => {
+            riot.mount('resume', {})
+        })
+    </script>
 </head>
 
 <body>
+<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+    <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="#">Covid19</a>
+    <input class="form-control form-control-dark w-100" type="text" placeholder="Pays" aria-label="pays">
+</nav>
+<div>
+    <div class="row" style="margin: 0">
+        <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar" style="height: 95vh">
+            <div class="sidebar-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">
+                            <i class="fas fa-home"></i>
+                            Home <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-map-marked-alt"></i>
+                            Map
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
 
+        <main role="main" style="padding: 50px" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
 
-<label>
-  <input type="search" placeholder="Pays" name="the_search">
-</label>
-<resume></resume>
-
-  <script src="todo.riot" type="riot"></script>
-  <script src="https://cdn.jsdelivr.net/npm/riot@4/riot+compiler.min.js"></script>
+            <resume></resume>
+            <h2>Section title</h2>
+            <div class="table-responsive">
+                <table class="table table-hover" style="width: 100%;">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Pays</th>
+                        <th scope="col">Cas</th>
+                        <th scope="col">Gueris</th>
+                        <th scope="col">Morts</th>
+                        <th scope="col">Cas Total</th>
+                        <th scope="col">Guéris Total</th>
+                        <th scope="col">Morts Total</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jacob</td>
+                        <td>Thornton</td>
+                        <td>@fat</td>
+                        <td>Jacob</td>
+                        <td>Thornton</td>
+                        <td>@fat</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Larry</td>
+                        <td>the Bird</td>
+                        <td>@twitter</td>
+                        <td>Larry</td>
+                        <td>the Bird</td>
+                        <td>@twitter</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</div>
 
 
 </body>
 
-<script>
-  riot.compile().then(() => {
-        riot.mount('resume', {
-        })
-      })
-</script>
 
 </html>
