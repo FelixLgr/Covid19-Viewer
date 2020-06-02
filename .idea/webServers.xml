@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="0d7eb47a-5898-4f9c-95e1-e9755ae7c72b" name="IUT" url="http://dwarves.iut-fbleau.fr/~legrelle/covid19/">
+        <fileTransfer rootFolder="/export/home/an18/legrelle/public_html/covid19" accessType="SFTP" host="gatekeeper.iut-fbleau.fr" port="22" sshConfigId="122a1b90-a259-4a69-9b96-14f484b08f82" sshConfig="legrelle@gatekeeper.iut-fbleau.fr:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

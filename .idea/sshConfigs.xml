@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SshConfigs">
+    <configs>
+      <sshConfig authType="PASSWORD" host="gatekeeper.iut-fbleau.fr" id="122a1b90-a259-4a69-9b96-14f484b08f82" port="22" nameFormat="DESCRIPTIVE" username="legrelle" />
+    </configs>
+  </component>
+</project>

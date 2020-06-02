@@ -1,62 +1,64 @@
 <resume>
     <h1>COVID 19</h1>
-      <h4 style = "width:100%">{ state.date }</h4>
-      <br>
-      <div style="float:left;width:75%;">
+    <h4 style="width:100%">{ state.date }</h4>
+    <br>
+    <div style="float:left; width:75%;">
         <h2>Total</h2>
         <ul>
-          <li>Cas : { state.covidedGlobal }</li>
-          <li>Morts : { state.deathGlobal }</li>
-          <li>Guéris : { state.healedGlobal }</li>
+            <li>Cas : { state.covidedGlobal }</li>
+            <li>Morts : { state.deathGlobal }</li>
+            <li>Guéris : { state.healedGlobal }</li>
         </ul>
-      </div>
-      <div style="float:left;width:25%;">
+    </div>
+    <div style="float:left; width:25%;">
         <h2>Aujourd'hui</h2>
         <ul>
-          <li>Cas : { state.covidedToday }</li>
-          <li>Morts : { state.deathToday }</li>
-          <li>Guéris : { state.healedToday }</li>
+            <li>Cas : { state.covidedToday }</li>
+            <li>Morts : { state.deathToday }</li>
+            <li>Guéris : { state.healedToday }</li>
         </ul>
-      </div>
+    </div>
 
     <script>
-      var url = "https://api.covid19api.com/summary";
-      
-  
-      
 
-      export default {
-        onBeforeMount(props, state) {
-          let data;
-          /*
-          $.getJSON(url, function(data) {
-            information = data;
-            //data is the JSON string
-              console.log(data.Date);
-              var Vdate = new Date(data.Date);
-              dateslash = Vdate.getDate() + "/" + Vdate.getMonth() + "/" + Vdate.getFullYear();
-              console.log(dateslash);
-              
-              
-          });*/
-          $.getJSON(url, function (res) {data = res; console.log(res);});
-          console.log(data);
-          //var Vdate = new Date(data.Date);
-          //var dateslash = Vdate.getDate() + "/" + Vdate.getMonth() + "/" + Vdate.getFullYear();
-          //console.log(dateslash);
-
-          var date2 = '2/6/2020'
-          this.state = {
-                date: date2,
-                covidedGlobal:0,
-                deathGlobal:0,
-                healedGlobal:0,
-                covidedToday:0,
-                deathToday:0,
-                healedToday:0,
-          }
-          
+        function formatInt(number) {
+            return new Intl.NumberFormat().format(number)
         }
-      }
+
+        export default {
+            onBeforeMount(props, state) {
+                this.state.date = "01/01/1997"
+                this.state.covidedGlobal = 0
+                this.state.deathGlobal = 0
+                this.state.healedGlobal = 0
+                this.state.covidedToday = 0
+                this.state.deathToday = 0
+                this.state.healedToday = 0
+
+            },
+            onMounted(props, state) {
+
+                let settings = {
+                    "url": "https://api.covid19api.com/summary",
+                    "method": "GET",
+                    "timeout": 0,
+                };
+                let pointer = this
+
+                $.ajax(settings).done(function (response) {
+                    console.log(response)
+                    let date2 = new Date(response.Date)
+                    pointer.update({
+                        date: date2,
+                        covidedGlobal: formatInt(response.Global.TotalConfirmed),
+                        deathGlobal: formatInt(response.Global.TotalDeaths),
+                        healedGlobal: formatInt(response.Global.TotalRecovered),
+                        covidedToday: formatInt(response.Global.NewConfirmed),
+                        deathToday: formatInt(response.Global.NewDeaths),
+                        healedToday: formatInt(response.Global.NewRecovered)
+                    })
+                });
+            }
+        }
     </script>
 </resume>
