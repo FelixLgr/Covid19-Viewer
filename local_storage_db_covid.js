@@ -22,17 +22,20 @@ createDBCovid = () => {
     };
 
     $.ajax(settings).done(function (response) {
-        console.log(response);
+        console.log(response.Countries);
+        console.log(response.Global);
 
         // create the table and insert records in one go
         covid.createTableWithData("Countries", response.Countries);
 
         // insert global stat
-        covid.insert("Global", response.Global);
+        const glob = response.Global;
+        covid.insert("Global", glob);
 
-        covid.insert("Time", { Date: response.Date });
+        const timing = response.Date;
+        covid.insert("Time", { Date: timing });
 
-        covid.commit();
+        covid.commit()
     });
 
     // commit the database to localStorage
@@ -47,7 +50,7 @@ diffTime = () => {
 
     const resQuery = covid.queryAll('Time');
     let lastUpdate = new Date(resQuery[0].Date);
-    lastUpdate.setHours(lastUpdate.getHours() + 6);
+    lastUpdate.setHours(lastUpdate.getHours()+6);
     if (Date.now() - lastUpdate > 0) {
         return true;
     } else {
@@ -69,8 +72,21 @@ updateDBcovid = () => {
     };
 
     $.ajax(settings).done(function (response) {
-        console.log(response);
+        covid.dropTable("Countries")
+        // create the table and insert records in one go
+        covid.createTableWithData("Countries", response.Countries);
+
+        // insert global stat
+        const glob = response.Global;
+        covid.insert("Global", glob);
+
+        const timing = response.Date;
+        covid.insert("Time", { Date: timing });
+
+        covid.commit();
     });
+
+    covid.commit();
 
 }
 
@@ -79,11 +95,11 @@ printAll = () => {
     // Initialise. If the database doesn't exist, it is created
     var covid = new localStorageDB("covid", localStorage);
 
-    let resQuery = covid.queryAll('Countries');
+    let resQuery = covid.queryAll("Countries");
     console.log(resQuery);
-    resQuery = covid.queryAll('Global');
+    resQuery = covid.queryAll("Global");
     console.log(resQuery);
-    resQuery = covid.queryAll('Countries');
+    resQuery = covid.queryAll("Time");
     console.log(resQuery);
 }
 
