@@ -1,4 +1,4 @@
-import * as localStorage from '../localstoragedb.js';
+
 
 function createDBCovid(){
     // Initialise. If the database doesn't exist, it is created
@@ -31,13 +31,13 @@ function createDBCovid(){
             covid.insert("Time", {Date: response.Date});
         });
 
-
+        const resQuery = covid.queryAll('Global');
         
 
         // commit the database to localStorage
         // all create/drop/insert/update/delete operations should be committed
         covid.commit();
-        return "hello"
+        return resQuery
     }
 }
 
