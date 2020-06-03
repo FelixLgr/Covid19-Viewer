@@ -1,12 +1,64 @@
 <app>
     <navbar/>
     <div class="row" style="margin-left: auto; margin-right: auto;">
-        <div class="col-sm-2" style="padding-left: 0;">
+        <div class="col-2 position-fixed" style="padding-left: 0">
             <leftbar/>
         </div>
-        <div class="col-sm-10 container pt-3">
-            <infoplus/>
-            <tablecountry/>
+        <div class="col offset-2 pt-3" >
+            <infoplus contenu={ state.global }/>
+            <tablecountry contenu={ state.pays}/>
         </div>
     </div>
+
+    <script>
+        export default {
+            state: {
+                global: null,
+                pays: null
+            },
+            onBeforeMount(props, state) {
+                state.global = ({
+                    date: "NULL",
+                })
+                state.pays = ({
+                    listpays: "NULL",
+                })
+            }, onMounted(props, state) {
+                let pointer = this
+                let settings = {
+                    "url": "https://api.covid19api.com/summary",
+                    "method": "GET",
+                    "timeout": 0,
+                };
+
+                $.ajax(settings).done(function (response) {
+                    console.log(response.Countries)
+
+                    let dateAPI = new Date(response.Date)
+                    let day = dateAPI.getDay()
+
+                    const months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
+                    let mounth = months[dateAPI.getMonth()]
+                    let year = dateAPI.getFullYear()
+                    let formatDate = day + " " + mounth + " " + year
+
+                    state.global = ({
+                        date: formatDate,
+                        covidedGlobal: formatInt(response.Global.TotalConfirmed),
+                        deathGlobal: formatInt(response.Global.TotalDeaths),
+                        healedGlobal: formatInt(response.Global.TotalRecovered),
+                        covidedToday: formatInt(response.Global.NewConfirmed),
+                        deathToday: formatInt(response.Global.NewDeaths),
+                        healedToday: formatInt(response.Global.NewRecovered)
+                    })
+
+                    state.pays = ({
+                        listpays: response.Countries
+                    })
+                    pointer.update()
+                });
+            }
+        }
+    </script>
+
 </app>

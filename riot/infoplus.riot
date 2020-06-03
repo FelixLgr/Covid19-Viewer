@@ -1,72 +1,22 @@
 <infoplus>
-    <h4>{ state.date }</h4>
+    <h4>{ props.contenu.date }</h4>
     <br>
     <div class="row">
         <div class="col">
             <h2>Total</h2>
             <ul>
-                <li>Cas : { state.covidedGlobal }</li>
-                <li>Morts : { state.deathGlobal }</li>
-                <li>Guéris : { state.healedGlobal }</li>
+                <li>Cas : { props.contenu.covidedGlobal }</li>
+                <li>Morts : { props.contenu.deathGlobal }</li>
+                <li>Guéris : { props.contenu.healedGlobal }</li>
             </ul>
         </div>
         <div class="col">
             <h2>Aujourd'hui</h2>
             <ul>
-                <li>Cas : { state.covidedToday }</li>
-                <li>Morts : { state.deathToday }</li>
-                <li>Guéris : { state.healedToday }</li>
+                <li>Cas : { props.contenu.covidedToday }</li>
+                <li>Morts : { props.contenu.deathToday }</li>
+                <li>Guéris : { props.contenu.healedToday }</li>
             </ul>
         </div>
     </div>
-    <script>
-
-        function formatInt(number) {
-            return new Intl.NumberFormat().format(number)
-        }
-
-        export default {
-            onBeforeMount(props, state) {
-                this.state.date = "01/01/1997"
-                this.state.covidedGlobal = "null"
-                this.state.deathGlobal = "null"
-                this.state.healedGlobal = "null"
-                this.state.covidedToday = "null"
-                this.state.deathToday = "null"
-                this.state.healedToday = "null"
-
-            },
-            onMounted(props, state) {
-
-                let settings = {
-                    "url": "https://api.covid19api.com/summary",
-                    "method": "GET",
-                    "timeout": 0,
-                };
-                let pointer = this
-
-                $.ajax(settings).done(function (response) {
-                    console.log(response)
-                    let dateAPI = new Date(response.Date)
-                    let day = dateAPI.getDay()
-                    const months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
-                    let mounth = months[dateAPI.getMonth()]
-                    let year = dateAPI.getFullYear()
-
-                    let formatDate = day + " " + mounth + " " + year
-
-                    console.log(dateAPI)
-                    pointer.update({
-                        date: formatDate,
-                        covidedGlobal: formatInt(response.Global.TotalConfirmed),
-                        deathGlobal: formatInt(response.Global.TotalDeaths),
-                        healedGlobal: formatInt(response.Global.TotalRecovered),
-                        covidedToday: formatInt(response.Global.NewConfirmed),
-                        deathToday: formatInt(response.Global.NewDeaths),
-                        healedToday: formatInt(response.Global.NewRecovered)
-                    })
-                });
-            }
-        }
-    </script>
 </infoplus>

@@ -1,47 +1,55 @@
 <tablecountry>
-        <h2>Liste des pays</h2>
-        <div class="table-responsive">
-            <table class="table table-hover" style="width: 100%;">
-                <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Pays</th>
-                    <th scope="col">Cas</th>
-                    <th scope="col">Gueris</th>
-                    <th scope="col">Morts</th>
-                    <th scope="col">Cas Total</th>
-                    <th scope="col">Guéris Total</th>
-                    <th scope="col">Morts Total</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+    <h2>Liste des pays</h2>
+    <div class="table-responsive">
+        <table class="table table-hover" style="width: 100%;">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Pays</th>
+                <th scope="col">Cas</th>
+                <th scope="col">Gueris</th>
+                <th scope="col">Morts</th>
+                <th scope="col">Cas Total</th>
+                <th scope="col">Guéris Total</th>
+                <th scope="col">Morts Total</th>
+            </tr>
+            </thead>
+            <tbody id="table_country">
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        export default {
+            onUpdated(props, state) {
+                let tbody = _("table_country")
+                for(let numPays in props.contenu.listpays) {
+                    let tr = document.createElement("tr");
+
+                    console.log(props.contenu.listpays[numPays])
+                    let th = document.createElement("th");
+                    th.innerText=props.contenu.listpays[numPays].Country
+                    tr.appendChild(th);
+                    let tdcas = document.createElement("td");
+                    tdcas.innerText=props.contenu.listpays[numPays].NewConfirmed
+                    tr.appendChild(tdcas);
+                    let tdgueris = document.createElement("td");
+                    tdgueris.innerText=props.contenu.listpays[numPays].NewRecovered
+                    tr.appendChild(tdgueris);
+                    let tdmort = document.createElement("td");
+                    tdmort.innerText=props.contenu.listpays[numPays].NewDeaths
+                    tr.appendChild(tdmort);
+                    let tdGcas = document.createElement("td");
+                    tdGcas.innerText=props.contenu.listpays[numPays].TotalConfirmed
+                    tr.appendChild(tdGcas);
+                    let tdGgueris = document.createElement("td");
+                    tdGgueris.innerText=props.contenu.listpays[numPays].TotalRecovered
+                    tr.appendChild(tdGgueris);
+                    let tdGmort = document.createElement("td");
+                    tdGmort.innerText=props.contenu.listpays[numPays].TotalDeaths
+                    tr.appendChild(tdGmort);
+                    tbody.appendChild(tr);
+                }
+            }
+        }
+    </script>
 </tablecountry>
