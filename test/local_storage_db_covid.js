@@ -1,6 +1,6 @@
-<reference path="jquery-2.0.3.js" />
+import * as localStorage from '../localstoragedb.js';
 
-createDBCovid = () => {
+function createDBCovid(){
     // Initialise. If the database doesn't exist, it is created
     var covid = new localStorageDB("covid", localStorage);
 
@@ -21,15 +21,23 @@ createDBCovid = () => {
           
           $.ajax(settings).done(function (response) {
             console.log(response);
+
+            // create the table and insert records in one go
+            covid.createTableWithData("Countries", response.Countries);
+
+            // insert global stat
+            covid.insert("Global", response.Global);
+
+            covid.insert("Time", {Date: response.Date});
         });
 
 
-        // create the table and insert records in one go
-        covid.createTableWithData("Countries", rows);
+        
 
         // commit the database to localStorage
         // all create/drop/insert/update/delete operations should be committed
         covid.commit();
+        return "hello"
     }
 }
 
