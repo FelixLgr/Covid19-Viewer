@@ -1,20 +1,39 @@
 <leftbar>
-    <nav id="sidebarMenu" class="bg-light sidebar" style="height: calc(100vh - 56px)">
-        <div class="pt-3">
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link text-center h5" href="#">
-                        <i class="fas fa-home"/>
-                        Home
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-center h5" href="#">
-                        <i class="fas fa-map-marked-alt"/>
-                        Map
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+    <route path="(.*)">
+        <nav id="sidebarMenu" class="bg-light sidebar" style="height: calc(100vh - 56px)">
+            <div class="pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a each={ link in state.links }
+                           href="{ link.url }"
+                           class="nav-link text-center h5">
+                            <i class="{ link.icon } mr-1"/>
+                            { link.name }
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </route>
+
+    <script>
+        export default {
+            state: {
+                links: [
+                    {name: "Home", url: "#", icon: "fas fa-home"},
+                    {name: "Info", url: "#/infos", icon: "fas fa-table"},
+                    {name: "Map", url: "#/map", icon: "fas fa-map-marked-alt"}
+                ]
+            },
+            isLinkSelected(link, route) {
+                const isHome = !route.hash || route.hash === '#'
+
+                if (link.url === '#') {
+                    return isHome
+                }
+
+                return !isHome && route.hash.includes(link.url)
+            }
+        }
+    </script>
 </leftbar>

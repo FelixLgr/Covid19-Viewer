@@ -21,3 +21,11 @@ des données relatives à la pandémie du covid 19.
 - Chaque pays est un lien qui amène à un graphique représentant l'évolution de la pandémie depuis le début.
 
 - Mise en place d'une carte cliquable pour accéder plus facilement aux differents pays.
+
+## Technologies utilisées
+
+- [Riot.js](https://riot.js.org/) `v4.12.4` 
+- [Bootstrap](https://getbootstrap.com/) `v4.5.0` 
+- [FontAwesome](https://fontawesome.com/) `v5.13.0` 
+- [amcharts](https://www.amcharts.com/) `v4.9.24` 
+- [localStorageDB](https://github.com/knadh/localStorageDB) `v2.3.2` 
