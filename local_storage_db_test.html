@@ -21,11 +21,16 @@
   <!--<script src="local_storage_db_test.js"></script>-->
   <script src="local_storage_db_covid.js"></script>
   <script>
-    /*
-    if(diffTime()){
-      updateDBCovid()
+    if (!dbCovidExist()) {
+      createDBCovid();
+      console.log("Base de donnée créé !")
+    } else if (diffTime()) {
+      updateDBCovid();
+      console.log("Base de donnée Update !")
     }
-    */
+    console.log("Fini !")
+    console.log(selectTime());
+    console.log(selectGlobal());
   </script>
 </body>
 

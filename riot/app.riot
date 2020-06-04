@@ -24,39 +24,35 @@
                     listpays: "NULL",
                 })
             }, onMounted(props, state) {
-                let pointer = this
-                let settings = {
-                    "url": "https://api.covid19api.com/summary",
-                    "method": "GET",
-                    "timeout": 0,
-                };
 
-                $.ajax(settings).done(function (response) {
-                    console.log(response.Countries)
+                //Creation & update localDB
+                if (!dbCovidExist()) {
+                    createDBCovid();
+                    console.log("Base de donnée créé !")
+                } else if (diffTime()) {
+                    updateDBCovid();
+                    console.log("Base de donnée Update !")
+                }
+                console.log("Fini !");
 
-                    let dateAPI = new Date(response.Date)
-                    let day = dateAPI.getDay()
-
-                    const months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
-                    let mounth = months[dateAPI.getMonth()]
-                    let year = dateAPI.getFullYear()
-                    let formatDate = day + " " + mounth + " " + year
-
-                    state.global = ({
-                        date: formatDate,
-                        covidedGlobal: formatInt(response.Global.TotalConfirmed),
-                        deathGlobal: formatInt(response.Global.TotalDeaths),
-                        healedGlobal: formatInt(response.Global.TotalRecovered),
-                        covidedToday: formatInt(response.Global.NewConfirmed),
-                        deathToday: formatInt(response.Global.NewDeaths),
-                        healedToday: formatInt(response.Global.NewRecovered)
-                    })
-
-                    state.pays = ({
-                        listpays: response.Countries
-                    })
-                    pointer.update()
-                });
+                let formatDate = selectTime();
+                let globalStat = selectGlobal();
+                let countriesStat = selectCountries();
+                
+                state.global = ({
+                    date: formatDate,
+                    covidedGlobal: formatInt(globalStat.TotalConfirmed),
+                    deathGlobal: formatInt(globalStat.TotalDeaths),
+                    healedGlobal: formatInt(globalStat.TotalRecovered),
+                    covidedToday: formatInt(globalStat.NewConfirmed),
+                    deathToday: formatInt(globalStat.NewDeaths),
+                    healedToday: formatInt(globalStat.NewRecovered)
+                })
+                
+                state.pays = ({
+                    listpays: countriesStat
+                })
+                this.update()
             }
         }
     </script>

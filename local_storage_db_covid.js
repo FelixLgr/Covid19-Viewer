@@ -1,12 +1,6 @@
-
-
-
-
 createDBCovid = () => {
     // Initialise. If the database doesn't exist, it is created
     var covid = new localStorageDB("covid", localStorage);
-
-    console.log("Hello");
     // create the "Time" table
     covid.createTable("Time", ["Date"]);
 
@@ -33,7 +27,9 @@ createDBCovid = () => {
         covid.insert("Global", glob);
 
         const timing = response.Date;
-        covid.insert("Time", { Date: timing });
+        covid.insert("Time", {
+            Date: timing
+        });
 
         covid.commit()
     });
@@ -43,6 +39,17 @@ createDBCovid = () => {
     covid.commit();
 }
 
+dbCovidExist = () => {
+    // Initialise. If the database doesn't exist, it is created
+    var covid = new localStorageDB("covid", localStorage);
+
+    if (covid.tableCount() == 3) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 diffTime = () => {
 
     // Initialise. If the database doesn't exist, it is created
@@ -50,7 +57,7 @@ diffTime = () => {
 
     const resQuery = covid.queryAll('Time');
     let lastUpdate = new Date(resQuery[0].Date);
-    lastUpdate.setHours(lastUpdate.getHours()+6);
+    lastUpdate.setHours(lastUpdate.getHours() + 6);
     if (Date.now() - lastUpdate > 0) {
         return true;
     } else {
@@ -58,7 +65,7 @@ diffTime = () => {
     }
 }
 
-updateDBcovid = () => {
+updateDBCovid = () => {
     // Initialise. If the database doesn't exist, it is created
     var covid = new localStorageDB("covid", localStorage);
 
@@ -81,7 +88,9 @@ updateDBcovid = () => {
         covid.insert("Global", glob);
 
         const timing = response.Date;
-        covid.insert("Time", { Date: timing });
+        covid.insert("Time", {
+            Date: timing
+        });
 
         covid.commit();
     });
@@ -113,4 +122,39 @@ resetBase = () => {
     covid.dropTable("Countries")
 
     covid.commit();
+}
+
+selectGlobal = () => {
+    // Initialise. If the database doesn't exist, it is created
+    var covid = new localStorageDB("covid", localStorage);
+
+    resQuery = covid.queryAll("Global");
+    return resQuery[0];
+}
+
+selectTime = () => {
+    // Initialise. If the database doesn't exist, it is created
+    var covid = new localStorageDB("covid", localStorage);
+
+    resQuery = covid.queryAll("Time");
+    const datestr =  resQuery[0].Date;
+    const dateAPI = new Date(datestr);
+
+    let months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
+    const mounth = months[dateAPI.getMonth()]
+    const year = dateAPI.getFullYear()
+    const day = dateAPI.getDate();
+    const formatDate = day + " " + mounth + " " + year
+    return formatDate;
+}
+
+
+selectCountries = () => {
+    // Initialise. If the database doesn't exist, it is created
+    var covid = new localStorageDB("covid", localStorage);
+
+    resQuery = covid.queryAll("Countries");
+    console.log(resQuery);
+    return resQuery;
+
 }

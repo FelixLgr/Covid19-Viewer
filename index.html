@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <title>Covid19 - Home</title>
@@ -16,18 +17,23 @@
     <link rel="stylesheet" href="assets/Fontawesome-5.13.0/css/all.css">
     <script src="assets/Fontawesome-5.13.0/js/all.js"></script>
 
+    <script src="localstoragedb.js"></script>
+    <script src="local_storage_db_covid.js"></script>
+
     <script type="riot" src="riot/app.riot"></script>
     <script type="riot" src="riot/navbar.riot"></script>
     <script type="riot" src="riot/leftbar.riot"></script>
     <script type="riot" src="riot/infoplus.riot"></script>
     <script type="riot" src="riot/tablecountry.riot"></script>
 </head>
-<body >
-<app></app>
-<script>
-    riot.compile().then( () => {
-        riot.mount('app');
-    })
-</script>
+
+<body>
+    <app></app>
+    <script>
+        riot.compile().then(() => {
+            riot.mount('app');
+        })
+    </script>
 </body>
+
 </html>
