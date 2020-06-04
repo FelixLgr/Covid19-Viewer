@@ -1,21 +1,33 @@
 <app>
-    <navbar/>
-    <div class="row" style="margin-left: auto; margin-right: auto;">
-        <div class="col-2 position-fixed" style="padding-left: 0">
-            <leftbar/>
+    <router base={base}>
+        <navbar/>
+        <div class="row" style="margin-left: auto; margin-right: auto;">
+            <div class="col-2 position-fixed" style="padding-left: 0">
+                <leftbar/>
+            </div>
+            <div class="col offset-2 pt-3">
+                <route path="#/infos(.*)">
+                    <infoplus contenu={ state.global }/>
+                    <tablecountry contenu={ state.pays}/>
+                </route>
+                <route path="#/map(.*)">
+
+
+                    <map/>
+                </route>
+
+            </div>
         </div>
-        <div class="col offset-2 pt-3" >
-            <infoplus contenu={ state.global }/>
-            <tablecountry contenu={ state.pays}/>
-        </div>
-    </div>
+    </router>
 
     <script>
+        const loc = window.location
         export default {
             state: {
                 global: null,
                 pays: null
             },
+            base: `${loc.protocol}//${loc.host}${loc.pathname ? loc.pathname : ''}`,
             onBeforeMount(props, state) {
                 state.global = ({
                     date: "NULL",
@@ -38,7 +50,9 @@
                 let formatDate = selectTime();
                 let globalStat = selectGlobal();
                 let countriesStat = selectCountries();
-                
+
+                //console.log(countriesStat)
+
                 state.global = ({
                     date: formatDate,
                     covidedGlobal: formatInt(globalStat.TotalConfirmed),
@@ -48,7 +62,7 @@
                     deathToday: formatInt(globalStat.NewDeaths),
                     healedToday: formatInt(globalStat.NewRecovered)
                 })
-                
+
                 state.pays = ({
                     listpays: countriesStat
                 })

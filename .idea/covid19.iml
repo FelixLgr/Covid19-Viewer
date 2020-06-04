@@ -10,5 +10,9 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="riot" level="application" />
     <orderEntry type="library" name="jquery" level="application" />
+    <orderEntry type="library" name="core" level="application" />
+    <orderEntry type="library" name="maps" level="application" />
+    <orderEntry type="library" name="worldLow" level="application" />
+    <orderEntry type="library" name="@riotjs/route" level="application" />
   </component>
 </module>

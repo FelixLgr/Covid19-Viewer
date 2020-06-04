@@ -143,6 +143,5 @@ selectCountries = () => {
     let covid = new localStorageDB("covid", localStorage);
 
     let resQuery = covid.queryAll("Countries");
-    console.log(resQuery);
     return resQuery;
 }

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Covid19 - Home</title>
+    <title>Covid19</title>
     <link rel="stylesheet" href="assets/css/style.css">
     <script src="assets/js/script.js"></script>
     <link rel="icon" href="assets/img/favicon.png">
@@ -12,7 +12,9 @@
     <link rel="stylesheet" href="assets/bootstrap-4.5.0/css/bootstrap.min.css">
     <script src="assets/bootstrap-4.5.0/js/bootstrap.js"></script>
     <script src="assets/bootstrap-4.5.0/js/bootstrap.bundle.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/riot@4/riot+compiler.min.js"></script>
+    <script src="https://unpkg.com/riot@4/riot+compiler.min.js"></script>
+    <script src="https://unpkg.com/@riotjs/route/route.js"></script>
+
 
     <link rel="stylesheet" href="assets/Fontawesome-5.13.0/css/all.css">
     <script src="assets/Fontawesome-5.13.0/js/all.js"></script>
@@ -20,16 +22,26 @@
     <script src="localstoragedb.js"></script>
     <script src="local_storage_db_covid.js"></script>
 
+    <script src="https://www.amcharts.com/lib/4/core.js"></script>
+    <script src="https://www.amcharts.com/lib/4/maps.js"></script>
+    <script src="https://www.amcharts.com/lib/4/geodata/worldLow.js"></script>
+    <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/material.js"></script>
+
     <script type="riot" src="riot/app.riot"></script>
     <script type="riot" src="riot/navbar.riot"></script>
     <script type="riot" src="riot/leftbar.riot"></script>
     <script type="riot" src="riot/infoplus.riot"></script>
     <script type="riot" src="riot/tablecountry.riot"></script>
+    <script type="riot" src="riot/map.riot"></script>
 </head>
 
 <body>
     <app></app>
     <script>
+        riot.register('router', route.Router)
+        riot.register('route', route.Route)
+
         riot.compile().then(() => {
             riot.mount('app');
         })
