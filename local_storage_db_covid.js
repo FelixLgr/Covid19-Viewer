@@ -1,6 +1,6 @@
 createDBCovid = () => {
     // Initialise. If the database doesn't exist, it is created
-    var covid = new localStorageDB("covid", localStorage);
+    let covid = new localStorageDB("covid", localStorage);
     // create the "Time" table
     covid.createTable("Time", ["Date"]);
 
@@ -9,7 +9,7 @@ createDBCovid = () => {
 
     covid.commit();
 
-    var settings = {
+    let settings = {
         "url": "https://api.covid19api.com/summary",
         "method": "GET",
         "timeout": 0,
@@ -23,8 +23,7 @@ createDBCovid = () => {
         covid.createTableWithData("Countries", response.Countries);
 
         // insert global stat
-        const glob = response.Global;
-        covid.insert("Global", glob);
+        covid.insert("Global", response.Global);
 
         const timing = response.Date;
         covid.insert("Time", {
@@ -41,38 +40,30 @@ createDBCovid = () => {
 
 dbCovidExist = () => {
     // Initialise. If the database doesn't exist, it is created
-    var covid = new localStorageDB("covid", localStorage);
+    let covid = new localStorageDB("covid", localStorage);
 
-    if (covid.tableCount() == 3) {
-        return true;
-    } else {
-        return false;
-    }
+    return covid.tableCount() === 3;
 }
 
 diffTime = () => {
 
     // Initialise. If the database doesn't exist, it is created
-    var covid = new localStorageDB("covid", localStorage);
+    let covid = new localStorageDB("covid", localStorage);
 
     const resQuery = covid.queryAll('Time');
     let lastUpdate = new Date(resQuery[0].Date);
     lastUpdate.setHours(lastUpdate.getHours() + 6);
-    if (Date.now() - lastUpdate > 0) {
-        return true;
-    } else {
-        return false;
-    }
+    return Date.now() - lastUpdate > 0;
 }
 
 updateDBCovid = () => {
     // Initialise. If the database doesn't exist, it is created
-    var covid = new localStorageDB("covid", localStorage);
+    let covid = new localStorageDB("covid", localStorage);
 
     covid.deleteRows("Time");
     covid.deleteRows("Global");
 
-    var settings = {
+    let settings = {
         "url": "https://api.covid19api.com/summary",
         "method": "GET",
         "timeout": 0,
@@ -84,8 +75,7 @@ updateDBCovid = () => {
         covid.createTableWithData("Countries", response.Countries);
 
         // insert global stat
-        const glob = response.Global;
-        covid.insert("Global", glob);
+        covid.insert("Global", response.Global);
 
         const timing = response.Date;
         covid.insert("Time", {
@@ -102,7 +92,7 @@ updateDBCovid = () => {
 
 printAll = () => {
     // Initialise. If the database doesn't exist, it is created
-    var covid = new localStorageDB("covid", localStorage);
+    let covid = new localStorageDB("covid", localStorage);
 
     let resQuery = covid.queryAll("Countries");
     console.log(resQuery);
@@ -115,7 +105,7 @@ printAll = () => {
 
 resetBase = () => {
     // Initialise. If the database doesn't exist, it is created
-    var covid = new localStorageDB("covid", localStorage);
+    let covid = new localStorageDB("covid", localStorage);
 
     covid.dropTable("Time");
     covid.dropTable("Global");
@@ -126,35 +116,33 @@ resetBase = () => {
 
 selectGlobal = () => {
     // Initialise. If the database doesn't exist, it is created
-    var covid = new localStorageDB("covid", localStorage);
+    let covid = new localStorageDB("covid", localStorage);
 
-    resQuery = covid.queryAll("Global");
+    let resQuery = covid.queryAll("Global");
     return resQuery[0];
 }
 
 selectTime = () => {
     // Initialise. If the database doesn't exist, it is created
-    var covid = new localStorageDB("covid", localStorage);
+    let covid = new localStorageDB("covid", localStorage);
 
-    resQuery = covid.queryAll("Time");
-    const datestr =  resQuery[0].Date;
+    let resQuery = covid.queryAll("Time");
+    const datestr = resQuery[0].Date;
     const dateAPI = new Date(datestr);
 
     let months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
     const mounth = months[dateAPI.getMonth()]
     const year = dateAPI.getFullYear()
     const day = dateAPI.getDate();
-    const formatDate = day + " " + mounth + " " + year
-    return formatDate;
+    return day + " " + mounth + " " + year;
 }
 
 
 selectCountries = () => {
     // Initialise. If the database doesn't exist, it is created
-    var covid = new localStorageDB("covid", localStorage);
+    let covid = new localStorageDB("covid", localStorage);
 
-    resQuery = covid.queryAll("Countries");
+    let resQuery = covid.queryAll("Countries");
     console.log(resQuery);
     return resQuery;
-
 }
