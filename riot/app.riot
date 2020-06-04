@@ -23,8 +23,6 @@
                 state.pays = ({
                     listpays: "NULL",
                 })
-            }, onMounted(props, state) {
-
                 //Creation & update localDB
                 if (!dbCovidExist()) {
                     createDBCovid();
@@ -34,6 +32,11 @@
                     console.log("Base de donnée Update !")
                 }
                 console.log("Fini !");
+
+
+            }, onMounted(props, state) {
+
+                
 
                 let formatDate = selectTime();
                 let globalStat = selectGlobal();

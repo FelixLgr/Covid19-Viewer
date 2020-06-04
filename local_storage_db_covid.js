@@ -112,6 +112,19 @@ printAll = () => {
     console.log(resQuery);
 }
 
+selectCountriesCode = () => {
+    // Initialise. If the database doesn't exist, it is created
+    var covid = new localStorageDB("covid", localStorage);
+
+    let resQuery = covid.queryAll("Countries");
+    var tabCodeCountries = [];
+
+    resQuery.forEach(element => {
+        console.log(element.CountryCode);
+        tabCodeCountries.push(element.CountryCode);
+    });
+    return tabCodeCountries;
+}
 
 resetBase = () => {
     // Initialise. If the database doesn't exist, it is created
