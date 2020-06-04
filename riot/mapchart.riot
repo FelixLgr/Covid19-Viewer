@@ -1,14 +1,47 @@
 <mapchart>
-    <div id="chartdiv" class="shadow-lg"></div>
+    <div id="chartdiv"></div>
 
     <script>
         export default {
             onMounted(props, state) {
 
+                let payscode = [{
+                    "id": "FR",
+                }, {
+                    "id": "US",
+                }, {
+                    "id": "CA",
+                }, {
+                    "id": "MX",
+                }]
+
+                //met en bleu les pays avec des possible valeurs
+                for (let k in payscode) {
+                    if (payscode.hasOwnProperty(k)) {
+                        payscode[k]["color"] = am4core.color("#488BB2")
+                    }
+                }
+
+
+                console.log(payscode)
+
                 // Create map instance
                 let chart = am4core.create("chartdiv", am4maps.MapChart);
 
                 chart.logo.disabled = true;
+
+                chart.panBehavior = "none";
+                chart.events.on("zoomlevelchanged", function(){
+                    // queue event loop so a final zoomlevelchanged can be "cauight"
+                    setTimeout(
+                        function() {
+                            if (chart.zoomLevel <= 2) {
+                                chart.panBehavior = "none";
+                            } else if (chart.zoomLevel > 2) {
+                                chart.panBehavior = "move";
+                            }
+                        }, 0);
+                });
 
                 // Set map definition
                 chart.geodata = am4geodata_worldLow;
@@ -23,16 +56,7 @@
                 polygonSeries.useGeodata = true;
 
                 // Add some custom data
-                polygonSeries.data = [{
-                    "id": "US",
-                    "color": am4core.color("#007bff")
-                }, {
-                    "id": "CA",
-                    "color": am4core.color("#007bff")
-                }, {
-                    "id": "MX",
-                    "color": am4core.color("#007bff")
-                }]
+                polygonSeries.data = payscode
 
                 // Configure series
                 let polygonTemplate = polygonSeries.mapPolygons.template;
@@ -48,8 +72,28 @@
                 let hs = polygonTemplate.states.create("hover");
                 hs.properties.fill = am4core.color("#004da8");
 
-                // Remove Antarctica
-                polygonSeries.exclude = ["AQ"];
+                /* Add legend */
+                var legend = new am4maps.Legend();
+                legend.parent = chart.chartContainer;
+                legend.background.fill = am4core.color("#000");
+                legend.background.fillOpacity = 0.05;
+                legend.width = 120;
+                legend.position = "left";
+                legend.valign = "bottom";
+                legend.padding(10, 15, 10, 15);
+                legend.data = [{
+                    "name": "Sans infos",
+                    "fill":"#343a40"
+                }, {
+                    "name": "Avec infos",
+                    "fill": "#488BB2"
+                }];
+                legend.itemContainers.template.clickable = false;
+                legend.itemContainers.template.focusable = false;
+
+                var legendTitle = legend.createChild(am4core.Label);
+                legendTitle.text = "Légende:";
+
 
                 // Create a zoom control
                 var zoomControl = new am4maps.ZoomControl();
@@ -60,7 +104,7 @@
                 var home = chart.chartContainer.createChild(am4core.Button);
                 home.label.text = "Centrer";
                 home.align = "right";
-                home.events.on("hit", function(ev) {
+                home.events.on("hit", function (ev) {
                     chart.goHome();
                 });
             }
