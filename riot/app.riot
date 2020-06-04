@@ -11,9 +11,7 @@
                     <tablecountry contenu={ state.pays}/>
                 </route>
                 <route path="#/map(.*)">
-
-
-                    <map/>
+                    <mapchart/>
                 </route>
 
             </div>
@@ -51,7 +49,7 @@
                 let globalStat = selectGlobal();
                 let countriesStat = selectCountries();
 
-                //console.log(countriesStat)
+                console.log(countriesStat)
 
                 state.global = ({
                     date: formatDate,

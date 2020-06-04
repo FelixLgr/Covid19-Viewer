@@ -1,0 +1,69 @@
+<mapchart>
+    <div id="chartdiv" class="shadow-lg"></div>
+
+    <script>
+        export default {
+            onMounted(props, state) {
+
+                // Create map instance
+                let chart = am4core.create("chartdiv", am4maps.MapChart);
+
+                chart.logo.disabled = true;
+
+                // Set map definition
+                chart.geodata = am4geodata_worldLow;
+
+                // Set projection
+                chart.projection = new am4maps.projections.Miller();
+
+                // Create map polygon series
+                let polygonSeries = chart.series.push(new am4maps.MapPolygonSeries());
+
+                // Make map load polygon (like country names) data from GeoJSON
+                polygonSeries.useGeodata = true;
+
+                // Add some custom data
+                polygonSeries.data = [{
+                    "id": "US",
+                    "color": am4core.color("#007bff")
+                }, {
+                    "id": "CA",
+                    "color": am4core.color("#007bff")
+                }, {
+                    "id": "MX",
+                    "color": am4core.color("#007bff")
+                }]
+
+                // Configure series
+                let polygonTemplate = polygonSeries.mapPolygons.template;
+                polygonTemplate.tooltipText = "{name}";
+                polygonTemplate.fill = am4core.color("#343a40");
+                polygonTemplate.propertyFields.fill = "color";
+                polygonTemplate.events.on("hit", function (ev) {
+                    let data = ev.target.dataItem.dataContext;
+                    alert(data.name + " (" + data.id + ")")
+                });
+
+                // Create hover state and set alternative fill color
+                let hs = polygonTemplate.states.create("hover");
+                hs.properties.fill = am4core.color("#004da8");
+
+                // Remove Antarctica
+                polygonSeries.exclude = ["AQ"];
+
+                // Create a zoom control
+                var zoomControl = new am4maps.ZoomControl();
+                chart.zoomControl = zoomControl;
+                zoomControl.slider.height = 100;
+
+                // Add button to zoom out
+                var home = chart.chartContainer.createChild(am4core.Button);
+                home.label.text = "Centrer";
+                home.align = "right";
+                home.events.on("hit", function(ev) {
+                    chart.goHome();
+                });
+            }
+        }
+    </script>
+</mapchart>

@@ -23,12 +23,12 @@
                 for (let numPays in props.contenu.listpays) {
                     let line = props.contenu.listpays[numPays]
                     let cell= "<th>"+line.Country+"</th>"
-                        + "<td>"+line.NewConfirmed+"</td>"
-                        + "<td>"+line.NewRecovered+"</td>"
-                        + "<td>"+line.NewDeaths+"</td>"
-                        + "<td>"+line.TotalConfirmed+"</td>"
-                        + "<td>"+line.TotalRecovered+"</td>"
-                        + "<td>"+line.TotalDeaths+"</td>"
+                        + "<td>"+formatInt(line.NewConfirmed)+"</td>"
+                        + "<td>"+formatInt(line.NewRecovered)+"</td>"
+                        + "<td>"+formatInt(line.NewDeaths)+"</td>"
+                        + "<td>"+formatInt(line.TotalConfirmed)+"</td>"
+                        + "<td>"+formatInt(line.TotalRecovered)+"</td>"
+                        + "<td>"+formatInt(line.TotalDeaths)+"</td>"
                     $('table').find('tbody').append("<tr>"+cell+"</tr>");
                 }
             }
