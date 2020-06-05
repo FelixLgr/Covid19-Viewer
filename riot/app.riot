@@ -33,6 +33,7 @@
                 state.pays = ({
                     listpays: "NULL",
                 })
+                resetBase();
                 if (!dbCovidExist()) {
                     createDBCovid();
                     console.log("Base de donnée créé !")

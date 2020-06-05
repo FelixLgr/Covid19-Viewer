@@ -13,7 +13,7 @@ createDBCovid = () => {
 
     // create the "EvolutionCountries" table
     covid.createTable("EvolutionCountries", ["CountryCode", "NewConfirmed", "TotalConfirmed", "NewDeaths", "TotalDeaths", "NewRecovered", "TotalRecovered", "Date"]);
-    console.log("Table créée => " + "EvolutionCountries");    
+    console.log("Table créée => " + "EvolutionCountries");
 
 
 
@@ -132,7 +132,7 @@ addEvoCountry = (codeCountry) => {
             let NMoinsUnRecovered = 0;
             response.forEach(element => {
                 covid.insert("EvolutionCountries", {
-                    
+
                     CountryCode: codeCountry,
                     NewConfirmed: (element.Confirmed - NMoinsUnConfirmed),
                     TotalConfirmed: element.Confirmed,
@@ -142,7 +142,7 @@ addEvoCountry = (codeCountry) => {
                     TotalRecovered: element.Recovered,
                     Date: element.Date
                 });
-                
+
                 NMoinsUnConfirmed = element.Confirmed;
                 NMoinsUnDeaths = element.Deaths;
                 NMoinsUnRecovered = element.Recovered;
@@ -167,7 +167,7 @@ addEvoCountry = (codeCountry) => {
                         TotalRecovered: element.Recovered,
                         Date: element.Date
                     });
-                    
+
                     NMoinsUnConfirmed = element.Confirmed;
                     NMoinsUnDeaths = element.Deaths;
                     NMoinsUnRecovered = element.Recovered;
@@ -256,18 +256,18 @@ resetBase = () => {
     // Initialise. If the database doesn't exist, it is created
     let covid = new localStorageDB("covid", localStorage);
 
-    if (covid.tableExists("Time")) {
-        covid.dropTable("Time");
-    }
-    if (covid.tableExists("Global")) {
-        covid.dropTable("Global");
-    }
-    if (covid.tableExists("Countries")) {
-        covid.dropTable("Countries");
-    }
-    if (covid.tableExists("EvolutionCountries")) {
-        covid.dropTable("EvolutionCountries");
-    }
+    //if (covid.tableExists("Time")) {
+    covid.dropTable("Time");
+    //}
+    //if (covid.tableExists("Global")) {
+    covid.dropTable("Global");
+    //}
+    //if (covid.tableExists("Countries")) {
+    covid.dropTable("Countries");
+    //}
+    //if (covid.tableExists("EvolutionCountries")) {
+    covid.dropTable("EvolutionCountries");
+    //}
 }
 
 selectGlobal = () => {
