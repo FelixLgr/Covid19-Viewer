@@ -1,0 +1,186 @@
+<graphcountry>
+    <h1 id="countryname"/>
+    <p id="error" style="display: none"/>
+    <div id="chartcontainer" style="display: none">
+        <h2>Données combinées :</h2>
+        <div id="chartdiv"></div>
+        <h2>Données par jours :</h2>
+        <div id="chartdiv2"></div>
+    </div>
+    <script>
+        export default {
+            onMounted(props, state) {
+                let href = location.href;
+                let countrycode = href.match(/([^\/]*)\/*$/)[1]
+                let countryname
+
+                for (let num in props.contenu.countrieslist) {
+                    if (props.contenu.countrieslist[num].id === countrycode) {
+                        countryname = props.contenu.countrieslist[num].name
+                    }
+                }
+
+                if (countryname) {
+                    _("chartcontainer").style.display = "block"
+
+                    _("countryname").innerText = countryname + " (" + countrycode + ")"
+
+                    am4core.ready(function () {
+
+                        am4core.useTheme(am4themes_animated);
+
+                        let chart = am4core.create("chartdiv", am4charts.XYChart);
+                        chart.logo.disabled = true;
+
+                        chart.data = props.contenu.data
+
+                        chart.dateFormatter.inputDateFormat = "yyyy";
+                        let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+                        dateAxis.renderer.minGridDistance = 60;
+                        dateAxis.startLocation = 0.5;
+                        dateAxis.endLocation = 0.5;
+                        dateAxis.baseInterval = {
+                            timeUnit: "year",
+                            count: 1
+                        }
+
+                        let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+                        valueAxis.tooltip.disabled = true;
+
+                        let series = chart.series.push(new am4charts.LineSeries());
+                        series.name = "Guéris";
+                        series.dataFields.dateX = "year";
+                        series.dataFields.valueY = "gueris";
+                        series.tooltipHTML = "<span style='font-size:14px; color:#000;'><i class='fas fa-shield-virus' style='vertical-align:bottom; margin-right: 10px; width:28px; height:21px;'></i><b>{valueY.value}</b></span>";
+                        series.tooltipText = "[#000]{valueY.value}[/]";
+                        series.tooltip.background.fill = am4core.color("#FFF");
+                        series.tooltip.getStrokeFromObject = true;
+                        series.tooltip.background.strokeWidth = 3;
+                        series.tooltip.getFillFromObject = false;
+                        series.fillOpacity = 0.6;
+                        series.strokeWidth = 2;
+                        series.stacked = false;
+
+                        let series2 = chart.series.push(new am4charts.LineSeries());
+                        series2.name = "Cas";
+                        series2.dataFields.dateX = "year";
+                        series2.dataFields.valueY = "cas";
+                        series2.tooltipHTML = "<span style='font-size:14px; color:#000;'><i class='fas fa-lungs-virus' style='vertical-align:bottom; margin-right: 10px; width:28px; height:21px;'></i><b>{valueY.value}</b></span>";
+                        series2.tooltipText = "[#000]{valueY.value}[/]";
+                        series2.tooltip.background.fill = am4core.color("#FFF");
+                        series2.tooltip.getFillFromObject = false;
+                        series2.tooltip.getStrokeFromObject = true;
+                        series2.tooltip.background.strokeWidth = 3;
+                        series2.sequencedInterpolation = true;
+                        series2.fillOpacity = 0.6;
+                        series2.stacked = false;
+                        series2.strokeWidth = 2;
+
+                        let series3 = chart.series.push(new am4charts.LineSeries());
+                        series3.name = "Morts";
+                        series3.dataFields.dateX = "year";
+                        series3.dataFields.valueY = "morts";
+                        series3.tooltipHTML = "<span style='font-size:14px; color:#000;'><i class='fas fa-skull-crossbones' style='vertical-align:bottom; margin-right: 10px; width:28px; height:21px;'></i><b>{valueY.value}</b></span>";
+                        series3.tooltipText = "[#000]{valueY.value}[/]";
+                        series3.tooltip.background.fill = am4core.color("#FFF");
+                        series3.tooltip.getFillFromObject = false;
+                        series3.tooltip.getStrokeFromObject = true;
+                        series3.tooltip.background.strokeWidth = 3;
+                        series3.sequencedInterpolation = true;
+                        series3.fillOpacity = 0.6;
+                        series3.defaultState.transitionDuration = 1000;
+                        series3.stacked = false;
+                        series3.strokeWidth = 2;
+
+                        chart.cursor = new am4charts.XYCursor();
+                        chart.cursor.xAxis = dateAxis;
+                        chart.scrollbarX = new am4core.Scrollbar();
+
+                        // Add a legend
+                        chart.legend = new am4charts.Legend();
+                        chart.legend.position = "top";
+
+
+                        let chart2 = am4core.create("chartdiv2", am4charts.XYChart);
+                        chart2.logo.disabled = true;
+
+                        chart2.data = props.contenu.data
+
+                        chart2.dateFormatter.inputDateFormat = "yyyy";
+                        let dateAxis2 = chart2.xAxes.push(new am4charts.DateAxis());
+                        dateAxis2.renderer.minGridDistance = 60;
+                        dateAxis2.startLocation = 0.5;
+                        dateAxis2.endLocation = 0.5;
+                        dateAxis2.baseInterval = {
+                            timeUnit: "year",
+                            count: 1
+                        }
+
+                        let valueAxis2 = chart2.yAxes.push(new am4charts.ValueAxis());
+                        valueAxis2.tooltip.disabled = true;
+
+                        let series4 = chart2.series.push(new am4charts.LineSeries());
+                        series4.name = "Guéris";
+                        series4.dataFields.dateX = "year";
+                        series4.dataFields.valueY = "gueris";
+                        series4.tooltipHTML = "<span style='font-size:14px; color:#000;'><i class='fas fa-shield-virus' style='vertical-align:bottom; margin-right: 10px; width:28px; height:21px;'></i><b>{valueY.value}</b></span>";
+                        series4.tooltipText = "[#000]{valueY.value}[/]";
+                        series4.tooltip.background.fill = am4core.color("#FFF");
+                        series4.tooltip.getStrokeFromObject = true;
+                        series4.tooltip.background.strokeWidth = 3;
+                        series4.tooltip.getFillFromObject = false;
+                        series4.fillOpacity = 0.6;
+                        series4.strokeWidth = 2;
+                        series4.stacked = false;
+
+                        let series5 = chart2.series.push(new am4charts.LineSeries());
+                        series5.name = "Cas";
+                        series5.dataFields.dateX = "year";
+                        series5.dataFields.valueY = "cas";
+                        series5.tooltipHTML = "<span style='font-size:14px; color:#000;'><i class='fas fa-lungs-virus' style='vertical-align:bottom; margin-right: 10px; width:28px; height:21px;'></i><b>{valueY.value}</b></span>";
+                        series5.tooltipText = "[#000]{valueY.value}[/]";
+                        series5.tooltip.background.fill = am4core.color("#FFF");
+                        series5.tooltip.getFillFromObject = false;
+                        series5.tooltip.getStrokeFromObject = true;
+                        series5.tooltip.background.strokeWidth = 3;
+                        series5.sequencedInterpolation = true;
+                        series5.fillOpacity = 0.6;
+                        series5.stacked = false;
+                        series5.strokeWidth = 2;
+
+                        let series6 = chart2.series.push(new am4charts.LineSeries());
+                        series6.name = "Morts";
+                        series6.dataFields.dateX = "year";
+                        series6.dataFields.valueY = "morts";
+                        series6.tooltipHTML = "<span style='font-size:14px; color:#000;'><i class='fas fa-skull-crossbones' style='vertical-align:bottom; margin-right: 10px; width:28px; height:21px;'></i><b>{valueY.value}</b></span>";
+                        series6.tooltipText = "[#000]{valueY.value}[/]";
+                        series6.tooltip.background.fill = am4core.color("#FFF");
+                        series6.tooltip.getFillFromObject = false;
+                        series6.tooltip.getStrokeFromObject = true;
+                        series6.tooltip.background.strokeWidth = 3;
+                        series6.sequencedInterpolation = true;
+                        series6.fillOpacity = 0.6;
+                        series6.defaultState.transitionDuration = 1000;
+                        series6.stacked = false;
+                        series6.strokeWidth = 2;
+
+                        chart2.cursor = new am4charts.XYCursor();
+                        chart2.cursor.xAxis = dateAxis2;
+                        chart2.scrollbarX = new am4core.Scrollbar();
+
+                        // Add a legend
+                        chart2.legend = new am4charts.Legend();
+                        chart2.legend.position = "top";
+                    });
+                } else {
+                    _("countryname").innerText = "Une erreur est survenue."
+                    _("error").style.display = "block"
+                    _("error").innerText = "Le pays n'a pas de données ou n'existe pas"
+                }
+            },
+            onUnmounted(props, state) {
+                am4core.disposeAllCharts();
+            }
+        }
+    </script>
+</graphcountry>

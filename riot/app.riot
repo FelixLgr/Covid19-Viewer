@@ -11,7 +11,7 @@
                     <tablecountry contenu={ state.pays }/>
                 </route>
                 <route path="#/infos/(.*)">
-                    <graphcoutry contenu={ state.country }/>
+                    <graphcountry contenu={ state.country }/>
                 </route>
                 <route path="#/map(.*)">
                     <mapchart contenu="{state.codepays}"/>
@@ -75,9 +75,6 @@
                 state.pays = ({
                     listpays: countriesStat
                 })
-
-
-
 
                 let datacountry=[{
                     "year": "1994",
@@ -177,7 +174,8 @@
                 }];
 
                 state.country = ({
-                    data: datacountry
+                    data: datacountry,
+                    countrieslist: selectCountriesCode(countriesStat)
                 })
 
                 state.codepays = ({

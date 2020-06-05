@@ -258,6 +258,7 @@ selectCountriesCode = (countriesStat) => {
     countriesStat.forEach(element => {
         let table = {
             "id": element.CountryCode,
+            "name": element.Country,
             "color": am4core.color("#488BB2")
         }
         tabCodeCountries.push(table);
@@ -310,8 +311,7 @@ selectCountries = () => {
     // Initialise. If the database doesn't exist, it is created
     let covid = new localStorageDB("covid", localStorage);
 
-    let resQuery = covid.queryAll("Countries");
-    return resQuery;
+    return covid.queryAll("Countries");
 }
 
 selectLastDateEvo = (countryCode) => {
