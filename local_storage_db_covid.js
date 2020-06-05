@@ -11,10 +11,11 @@ createDBCovid = () => {
     covid.createTable("Global", ["NewConfirmed", "TotalConfirmed", "NewDeaths", "TotalDeaths", "NewRecovered", "TotalRecovered"]);
     console.log("Table créée => " + "Global");
 
+    /*
     // create the "EvolutionCountries" table
     covid.createTable("EvolutionCountries", ["CountryCode", "NewConfirmed", "TotalConfirmed", "NewDeaths", "TotalDeaths", "NewRecovered", "TotalRecovered", "Date"]);
     console.log("Table créée => " + "EvolutionCountries");
-
+    */
 
 
     // create the "Countries" table
