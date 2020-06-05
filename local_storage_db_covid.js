@@ -12,10 +12,12 @@ createDBCovid = () => {
     console.log("Table créée => " + "Global");
 
     // create the "EvolutionCountries" table
-    covid.createTable("EvolutionCountries", ["CountryCode", "Confirmed", "Deaths", "Recovered", "Date"]);
-    console.log("Table créée => " + "EvolutionCountries");
+    covid.createTable("EvolutionCountries", ["CountryCode", "NewConfirmed", "TotalConfirmed", "NewDeaths", "TotalDeaths", "NewRecovered", "TotalRecovered", "Date"]);
+    console.log("Table créée => " + "EvolutionCountries");    
 
-    // create the "EvolutionCountries" table
+
+
+    // create the "Countries" table
     covid.createTable("Countries", ["Country", "CountryCode", "Slug", "NewConfirmed", "TotalConfirmed", "NewDeaths", "TotalDeaths", "NewRecovered", "TotalRecovered", "Date"]);
     console.log("Table créée => " + "Countries");
 
@@ -51,7 +53,7 @@ createDBCovid = () => {
         });
 
         covid.commit();
-        
+
         // insert global stat
         covid.insert("Global", response.Global);
 
@@ -113,26 +115,66 @@ addEvoCountry = (codeCountry) => {
     const nameCountry = findNameCountry(codeCountry);
     const apiUrl = "https://api.covid19api.com/total/country/" + nameCountry;
 
+    const paramUpdate = selectLastDateEvo(codeCountry);
+
+
+
     var settings = {
         "url": apiUrl,
         "method": "GET",
         "timeout": 0,
         async: false
     };
-
     $.ajax(settings).done(function (response) {
-        console.log(response);
-        response.forEach(element => {
-            covid.insert("EvolutionCountries", {
-                CountryCode: codeCountry,
-                Confirmed: element.Confirmed,
-                Deaths: element.Deaths,
-                Recovered: element.Recovered,
-                Date: element.Date
-            });
-            covid.commit();
-        });
+        if (paramUpdate === false) {
+            let NMoinsUnConfirmed = 0;
+            let NMoinsUnDeaths = 0;
+            let NMoinsUnRecovered = 0;
+            response.forEach(element => {
+                covid.insert("EvolutionCountries", {
+                    
+                    CountryCode: codeCountry,
+                    NewConfirmed: (element.Confirmed - NMoinsUnConfirmed),
+                    TotalConfirmed: element.Confirmed,
+                    NewDeaths: (element.Deaths - NMoinsUnDeaths),
+                    TotalDeaths: element.Deaths,
+                    NewRecovered: (element.Recovered - NMoinsUnRecovered),
+                    TotalRecovered: element.Recovered,
+                    Date: element.Date
+                });
+                
+                NMoinsUnConfirmed = element.Confirmed;
+                NMoinsUnDeaths = element.Deaths;
+                NMoinsUnRecovered = element.Recovered;
 
+                covid.commit();
+            });
+        } else {
+            let lastDate = new Date(paramUpdate);
+            let NMoinsUnConfirmed = 0;
+            let NMoinsUnDeaths = 0;
+            let NMoinsUnRecovered = 0;
+            response.forEach(element => {
+                let elemDate = new Date(element.Date);
+                if (lastDate < elemDate) {
+                    covid.insert("EvolutionCountries", {
+                        CountryCode: codeCountry,
+                        NewConfirmed: (element.Confirmed - NMoinsUnConfirmed),
+                        TotalConfirmed: element.Confirmed,
+                        NewDeaths: (element.Deaths - NMoinsUnDeaths),
+                        TotalDeaths: element.Deaths,
+                        NewRecovered: (element.Recovered - NMoinsUnRecovered),
+                        TotalRecovered: element.Recovered,
+                        Date: element.Date
+                    });
+                    
+                    NMoinsUnConfirmed = element.Confirmed;
+                    NMoinsUnDeaths = element.Deaths;
+                    NMoinsUnRecovered = element.Recovered;
+                    covid.commit();
+                }
+            });
+        }
     });
 
     covid.commit();
@@ -226,11 +268,6 @@ resetBase = () => {
     if (covid.tableExists("EvolutionCountries")) {
         covid.dropTable("EvolutionCountries");
     }
-
-    if (covid.tableExists("test")) {
-        covid.dropTable("test");
-    }
-    covid.commit();
 }
 
 selectGlobal = () => {
@@ -264,9 +301,22 @@ selectCountries = () => {
     return resQuery;
 }
 
-/*
-lib.queryAll("books", { query: {"CountryCode": nameCountry},
-                        limit: 1,
-                        id: [["author", "DESC"]]
-                      });
-*/
+selectLastDateEvo = (countryCode) => {
+    // Initialise. If the database doesn't exist, it is created
+    let covid = new localStorageDB("covid", localStorage);
+
+    const resQuery = covid.queryAll("EvolutionCountries", {
+        query: {
+            "CountryCode": countryCode
+        },
+        limit: 1,
+        sort: [
+            ["ID", "DESC"]
+        ]
+    });
+    if (resQuery.length === 0) {
+        return false;
+    } else {
+        return resQuery[0].Date;
+    }
+}
