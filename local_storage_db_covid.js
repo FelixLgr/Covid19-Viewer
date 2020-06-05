@@ -329,10 +329,7 @@ updateDB = () => {
     // Initialise. If the database doesn't exist, it is created
     let covid = new localStorageDB("covid", localStorage);
 
-    
-    if (covid.tableExists("EvolutionCountries")) {
-        covid.dropTable("EvolutionCountries");
-    }
+    covid.dropTable("EvolutionCountries");
 
     // create the "EvolutionCountries" table
     covid.createTable("EvolutionCountries", ["CountryCode", "NewConfirmed", "TotalConfirmed", "NewDeaths", "TotalDeaths", "NewRecovered", "TotalRecovered", "Date"]);
