@@ -247,7 +247,9 @@ selectCountriesCode = (countriesStat) => {
     let tabCodeCountries = [];
 
     countriesStat.forEach(element => {
-        tabCodeCountries.push(element.CountryCode);
+        let table={"id":element.CountryCode,
+                    "color":am4core.color("#488BB2")}
+        tabCodeCountries.push(table);
     });
     return tabCodeCountries;
 }

@@ -11,7 +11,7 @@
                     <tablecountry contenu={ state.pays }/>
                 </route>
                 <route path="#/map(.*)">
-                    <mapchart/>
+                    <mapchart contenu="{state.codepays}"/>
                 </route>
 
             </div>
@@ -23,7 +23,8 @@
         export default {
             state: {
                 global: null,
-                pays: null
+                pays: null,
+                codepays: null
             },
             base: `${loc.protocol}//${loc.host}${loc.pathname ? loc.pathname : ''}`,
             onBeforeMount(props, state) {
@@ -32,6 +33,9 @@
                 })
                 state.pays = ({
                     listpays: "NULL",
+                })
+                state.codepays = ({
+                    countrieslist: "NULL",
                 })
                 resetBase();
                 if (!dbCovidExist()) {
@@ -69,6 +73,9 @@
 
                 state.pays = ({
                     listpays: countriesStat
+                })
+                state.codepays = ({
+                    countrieslist: countriesCode
                 })
                 this.update()
             }

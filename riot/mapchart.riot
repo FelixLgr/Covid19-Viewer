@@ -5,26 +5,6 @@
         export default {
             onMounted(props, state) {
 
-                let payscode = [{
-                    "id": "FR",
-                }, {
-                    "id": "US",
-                }, {
-                    "id": "CA",
-                }, {
-                    "id": "MX",
-                }]
-
-                //met en bleu les pays avec des possible valeurs
-                for (let k in payscode) {
-                    if (payscode.hasOwnProperty(k)) {
-                        payscode[k]["color"] = am4core.color("#488BB2")
-                    }
-                }
-
-
-                console.log(payscode)
-
                 // Create map instance
                 let chart = am4core.create("chartdiv", am4maps.MapChart);
 
@@ -56,7 +36,7 @@
                 polygonSeries.useGeodata = true;
 
                 // Add some custom data
-                polygonSeries.data = payscode
+                polygonSeries.data = props.contenu.countrieslist
 
                 // Configure series
                 let polygonTemplate = polygonSeries.mapPolygons.template;
@@ -73,7 +53,7 @@
                 hs.properties.fill = am4core.color("#004da8");
 
                 /* Add legend */
-                var legend = new am4maps.Legend();
+                let legend = new am4maps.Legend();
                 legend.parent = chart.chartContainer;
                 legend.background.fill = am4core.color("#000");
                 legend.background.fillOpacity = 0.05;
@@ -82,29 +62,29 @@
                 legend.valign = "bottom";
                 legend.padding(10, 15, 10, 15);
                 legend.data = [{
-                    "name": "Sans infos",
+                    "name": "Sans données",
                     "fill":"#343a40"
                 }, {
-                    "name": "Avec infos",
+                    "name": "Avec données",
                     "fill": "#488BB2"
                 }];
                 legend.itemContainers.template.clickable = false;
                 legend.itemContainers.template.focusable = false;
 
-                var legendTitle = legend.createChild(am4core.Label);
+                let legendTitle = legend.createChild(am4core.Label);
                 legendTitle.text = "Légende:";
 
 
                 // Create a zoom control
-                var zoomControl = new am4maps.ZoomControl();
+                let zoomControl = new am4maps.ZoomControl();
                 chart.zoomControl = zoomControl;
                 zoomControl.slider.height = 100;
 
                 // Add button to zoom out
-                var home = chart.chartContainer.createChild(am4core.Button);
+                let home = chart.chartContainer.createChild(am4core.Button);
                 home.label.text = "Centrer";
                 home.align = "right";
-                home.events.on("hit", function (ev) {
+                home.events.on("hit", function () {
                     chart.goHome();
                 });
             }
