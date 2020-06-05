@@ -256,18 +256,18 @@ resetBase = () => {
     // Initialise. If the database doesn't exist, it is created
     let covid = new localStorageDB("covid", localStorage);
 
-    //if (covid.tableExists("Time")) {
+    if (covid.tableExists("Time")) {
     covid.dropTable("Time");
-    //}
-    //if (covid.tableExists("Global")) {
+    }
+    if (covid.tableExists("Global")) {
     covid.dropTable("Global");
-    //}
-    //if (covid.tableExists("Countries")) {
+    }
+    if (covid.tableExists("Countries")) {
     covid.dropTable("Countries");
-    //}
-    //if (covid.tableExists("EvolutionCountries")) {
+    }
+    if (covid.tableExists("EvolutionCountries")) {
     covid.dropTable("EvolutionCountries");
-    //}
+    }
 }
 
 selectGlobal = () => {
