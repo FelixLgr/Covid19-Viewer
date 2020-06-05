@@ -3,21 +3,21 @@ createDBCovid = () => {
     let covid = new localStorageDB("covid", localStorage);
     // create the "Time" table
     covid.createTable("Time", ["Date"]);
-    console.log("Table créée => " + covid.tableCount());
+    console.log("Table créée => " + "Time");
 
 
 
     // create the "Global" table
     covid.createTable("Global", ["NewConfirmed", "TotalConfirmed", "NewDeaths", "TotalDeaths", "NewRecovered", "TotalRecovered"]);
-    console.log("Table créée => " + covid.tableCount());
+    console.log("Table créée => " + "Global");
 
     // create the "EvolutionCountries" table
     covid.createTable("EvolutionCountries", ["CountryCode", "Confirmed", "Deaths", "Recovered", "Date"]);
-    console.log("Table créée => " + covid.tableCount());
+    console.log("Table créée => " + "EvolutionCountries");
 
     // create the "EvolutionCountries" table
     covid.createTable("Countries", ["Country", "CountryCode", "Slug", "NewConfirmed", "TotalConfirmed", "NewDeaths", "TotalDeaths", "NewRecovered", "TotalRecovered", "Date"]);
-    console.log("Table créée => " + covid.tableCount());
+    console.log("Table créée => " + "Countries");
 
 
 
@@ -28,6 +28,7 @@ createDBCovid = () => {
         "url": "https://api.covid19api.com/summary",
         "method": "GET",
         "timeout": 0,
+        async: false
     };
 
     $.ajax(settings).done(function (response) {
@@ -50,7 +51,7 @@ createDBCovid = () => {
         });
 
         covid.commit();
-        console.log("Table créée => " + covid.tableCount());
+        
         // insert global stat
         covid.insert("Global", response.Global);
 
@@ -116,12 +117,13 @@ addEvoCountry = (codeCountry) => {
         "url": apiUrl,
         "method": "GET",
         "timeout": 0,
+        async: false
     };
 
     $.ajax(settings).done(function (response) {
         console.log(response);
         response.forEach(element => {
-            covid.insertOrUpdate("EvolutionCountries", {
+            covid.insert("EvolutionCountries", {
                 CountryCode: codeCountry,
                 Confirmed: element.Confirmed,
                 Deaths: element.Deaths,
@@ -198,15 +200,11 @@ printAll = () => {
     console.log(resQuery);
 }
 
-selectCountriesCode = () => {
-    // Initialise. If the database doesn't exist, it is created
-    var covid = new localStorageDB("covid", localStorage);
+selectCountriesCode = (countriesStat) => {
 
-    let resQuery = covid.queryAll("Countries");
-    var tabCodeCountries = [];
+    let tabCodeCountries = [];
 
-    resQuery.forEach(element => {
-        console.log(element.CountryCode);
+    countriesStat.forEach(element => {
         tabCodeCountries.push(element.CountryCode);
     });
     return tabCodeCountries;
@@ -265,3 +263,10 @@ selectCountries = () => {
     let resQuery = covid.queryAll("Countries");
     return resQuery;
 }
+
+/*
+lib.queryAll("books", { query: {"CountryCode": nameCountry},
+                        limit: 1,
+                        id: [["author", "DESC"]]
+                      });
+*/

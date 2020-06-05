@@ -33,9 +33,7 @@
                 state.pays = ({
                     listpays: "NULL",
                 })
-                //Creation & update localDB
-                resetBase();
-                if (/*!dbCovidExist()*/true) {
+                if (!dbCovidExist()) {
                     createDBCovid();
                     console.log("Base de donnée créé !")
                 } else if (diffTime()) {
@@ -46,19 +44,17 @@
 
 
             }, onMounted(props, state) {
-                /*let a = dbCovidExist()
-                console.log(a);
-                while(dbCovidExist() === false){
-                    
-                }*/
-
-                console.log("gogo");
-                
+           
                 let globalStat = selectGlobal();
+                console.log(globalStat);
                 let countriesStat = selectCountries();
+                let countriesCode = selectCountriesCode(countriesStat);
+                console.log(countriesCode);
+                console.log(countriesStat);
                 let formatDate = selectTime();
-
-                console.log(countriesStat)
+                console.log(formatDate);
+                addEvoCountry("FR");
+                printAll();
 
                 state.global = ({
                     date: formatDate,
