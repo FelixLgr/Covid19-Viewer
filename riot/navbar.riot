@@ -1,16 +1,17 @@
 <navbar>
-        <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap shadow">
-
-            <a class="navbar-brand col-sm-2" href="#">
-                <route path="(#|)">
+    <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap shadow">
+        <a class="navbar-brand col-sm-2" href="#">
+            <route path="(#|)">
                 Covid19
-                </route>
-                <route path="#/:id/(.*)?">
+            </route>
+            <route path="#/:id/(.*)?">
                 Covid19 - { getHelpText(route) }
-                </route>
-            </a>
+            </route>
+        </a>
+        <route path="#/:id/(.*)?">
             <input class="form-control form-control-dark" type="text" placeholder="Pays" aria-label="pays">
-        </nav>
+        </route>
+    </nav>
     <script>
         export default {
             state: {

@@ -5,7 +5,10 @@
             <div class="col-2 position-fixed" style="padding-left: 0">
                 <leftbar/>
             </div>
-            <div class="col offset-2 pt-3">
+            <div class="col offset-2 pt-3" style="min-height: calc(100vh - 56px);">
+                <route path="(#|)">
+                    <home/>
+                </route>
                 <route path="#/infos">
                     <infoplus contenu={ state.global }/>
                     <tablecountry contenu={ state.pays }/>

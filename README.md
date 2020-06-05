@@ -25,6 +25,7 @@ des données relatives à la pandémie du covid 19.
 ## Technologies utilisées
 
 - [Riot.js](https://riot.js.org/) `v4.12.4` 
+- [covid19api](https://covid19api.com/) `v0.0.8` 
 - [Bootstrap](https://getbootstrap.com/) `v4.5.0` 
 - [FontAwesome](https://fontawesome.com/) `v5.13.0` 
 - [amcharts](https://www.amcharts.com/) `v4.9.24` 
