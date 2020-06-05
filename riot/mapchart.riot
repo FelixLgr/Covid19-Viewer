@@ -87,6 +87,8 @@
                 home.events.on("hit", function () {
                     chart.goHome();
                 });
+            },onUnmounted(props, state) {
+                am4core.disposeAllCharts();
             }
         }
     </script>

@@ -6,9 +6,12 @@
                 <leftbar/>
             </div>
             <div class="col offset-2 pt-3">
-                <route path="#/infos(.*)">
+                <route path="#/infos">
                     <infoplus contenu={ state.global }/>
                     <tablecountry contenu={ state.pays }/>
+                </route>
+                <route path="#/infos/(.*)">
+                    <graphcoutry contenu={ state.country }/>
                 </route>
                 <route path="#/map(.*)">
                     <mapchart contenu="{state.codepays}"/>
@@ -24,6 +27,7 @@
             state: {
                 global: null,
                 pays: null,
+                country: null,
                 codepays: null
             },
             base: `${loc.protocol}//${loc.host}${loc.pathname ? loc.pathname : ''}`,
@@ -34,34 +38,32 @@
                 state.pays = ({
                     listpays: "NULL",
                 })
+                state.country = ({
+                    data: "NULL",
+                })
                 state.codepays = ({
                     countrieslist: "NULL",
                 })
+                //resetBase();
                 if (!dbCovidExist()) {
-                    createDBCovid();
+                    createDBCovid()
                     console.log("Base de donnée créé !")
                 } else if (diffTime()) {
-                    updateDBCovid();
+                    updateDBCovid()
                     console.log("Base de donnée Update !")
                 }
-                console.log("Fini !");
+                console.log("Fini !")
 
 
             }, onMounted(props, state) {
-           
-                let globalStat = selectGlobal();
-                console.log(globalStat);
-                let countriesStat = selectCountries();
-                let countriesCode = selectCountriesCode(countriesStat);
-                console.log(countriesCode);
-                console.log(countriesStat);
-                let formatDate = selectTime();
-                console.log(formatDate);
-                addEvoCountry("FR");
-                printAll();
+
+                let globalStat = selectGlobal()
+                let countriesStat = selectCountries()
+                addEvoCountry("FR")
+                printAll()
 
                 state.global = ({
-                    date: formatDate,
+                    date: selectTime(),
                     covidedGlobal: formatInt(globalStat.TotalConfirmed),
                     deathGlobal: formatInt(globalStat.TotalDeaths),
                     healedGlobal: formatInt(globalStat.TotalRecovered),
@@ -73,8 +75,113 @@
                 state.pays = ({
                     listpays: countriesStat
                 })
+
+
+
+
+                let datacountry=[{
+                    "year": "1994",
+                    "Guéris": 1587,
+                    "Cas": 650,
+                    "Morts": 121
+                }, {
+                    "year": "1995",
+                    "Guéris": 1567,
+                    "Cas": 683,
+                    "Morts": 146
+                }, {
+                    "year": "1996",
+                    "Guéris": 1617,
+                    "Cas": 691,
+                    "Morts": 138
+                }, {
+                    "year": "1997",
+                    "Guéris": 1630,
+                    "Cas": 642,
+                    "Morts": 127
+                }, {
+                    "year": "1998",
+                    "Guéris": 1660,
+                    "Cas": 699,
+                    "Morts": 105
+                }, {
+                    "year": "1999",
+                    "Guéris": 1683,
+                    "Cas": 721,
+                    "Morts": 109
+                }, {
+                    "year": "2000",
+                    "Guéris": 1691,
+                    "Cas": 737,
+                    "Morts": 112
+                }, {
+                    "year": "2001",
+                    "Guéris": 1298,
+                    "Cas": 680,
+                    "Morts": 101
+                }, {
+                    "year": "2002",
+                    "Guéris": 1275,
+                    "Cas": 664,
+                    "Morts": 97
+                }, {
+                    "year": "2003",
+                    "Guéris": 1246,
+                    "Cas": 648,
+                    "Morts": 93
+                }, {
+                    "year": "2004",
+                    "Guéris": 1318,
+                    "Cas": 697,
+                    "Morts": 111
+                }, {
+                    "year": "2005",
+                    "Guéris": 1213,
+                    "Cas": 633,
+                    "Morts": 87
+                }, {
+                    "year": "2006",
+                    "Guéris": 1199,
+                    "Cas": 621,
+                    "Morts": 79
+                }, {
+                    "year": "2007",
+                    "Guéris": 1110,
+                    "Cas": 210,
+                    "Morts": 81
+                }, {
+                    "year": "2008",
+                    "Guéris": 1165,
+                    "Cas": 232,
+                    "Morts": 75
+                }, {
+                    "year": "2009",
+                    "Guéris": 1145,
+                    "Cas": 219,
+                    "Morts": 88
+                }, {
+                    "year": "2010",
+                    "Guéris": 1163,
+                    "Cas": 201,
+                    "Morts": 82
+                }, {
+                    "year": "2011",
+                    "Guéris": 1180,
+                    "Cas": 285,
+                    "Morts": 87
+                }, {
+                    "year": "2012",
+                    "Guéris": 1159,
+                    "Cas": 277,
+                    "Morts": 71
+                }];
+
+                state.country = ({
+                    data: datacountry
+                })
+
                 state.codepays = ({
-                    countrieslist: countriesCode
+                    countrieslist: selectCountriesCode(countriesStat)
                 })
                 this.update()
             }
