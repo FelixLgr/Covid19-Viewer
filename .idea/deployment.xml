@@ -10,7 +10,7 @@
           <excludedPaths>
             <excludedPath local="true" path="$PROJECT_DIR$/.idea" />
             <excludedPath local="true" path="$PROJECT_DIR$/assets/Fontawesome-5.13.0" />
-            <excludedPath local="true" path="$PROJECT_DIR$/node_modules" />
+            <excludedPath local="true" path="$PROJECT_DIR$/assets/amcharts4" />
             <excludedPath local="true" path="$PROJECT_DIR$/assets/bootstrap-4.5.0" />
           </excludedPaths>
         </serverdata>
