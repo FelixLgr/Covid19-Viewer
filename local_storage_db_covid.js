@@ -11,11 +11,11 @@ createDBCovid = () => {
     covid.createTable("Global", ["NewConfirmed", "TotalConfirmed", "NewDeaths", "TotalDeaths", "NewRecovered", "TotalRecovered"]);
     console.log("Table créée => " + "Global");
 
-    /*
+    
     // create the "EvolutionCountries" table
     covid.createTable("EvolutionCountries", ["CountryCode", "NewConfirmed", "TotalConfirmed", "NewDeaths", "TotalDeaths", "NewRecovered", "TotalRecovered", "Date"]);
     console.log("Table créée => " + "EvolutionCountries");
-    */
+    
 
 
     // create the "Countries" table
@@ -127,19 +127,23 @@ addEvoCountry = (codeCountry) => {
         async: false
     };
     $.ajax(settings).done(function (response) {
+        console.log(response);
         if (paramUpdate === false) {
             let NMoinsUnConfirmed = 0;
             let NMoinsUnDeaths = 0;
             let NMoinsUnRecovered = 0;
             response.forEach(element => {
+                let tmpConfirmed = (element.Confirmed - NMoinsUnConfirmed);
+                let tmpDeaths = (element.Deaths - NMoinsUnDeaths);
+                let tmpRecovered = (element.Recovered - NMoinsUnRecovered);
                 covid.insert("EvolutionCountries", {
 
                     CountryCode: codeCountry,
-                    NewConfirmed: (element.Confirmed - NMoinsUnConfirmed),
+                    NewConfirmed: tmpConfirmed,
                     TotalConfirmed: element.Confirmed,
-                    NewDeaths: (element.Deaths - NMoinsUnDeaths),
+                    NewDeaths: tmpDeaths,
                     TotalDeaths: element.Deaths,
-                    NewRecovered: (element.Recovered - NMoinsUnRecovered),
+                    NewRecovered: tmpRecovered,
                     TotalRecovered: element.Recovered,
                     Date: element.Date
                 });
@@ -158,13 +162,16 @@ addEvoCountry = (codeCountry) => {
             response.forEach(element => {
                 let elemDate = new Date(element.Date);
                 if (lastDate < elemDate) {
+                    let tmpConfirmed = (element.Confirmed - NMoinsUnConfirmed);
+                    let tmpDeaths = (element.Deaths - NMoinsUnDeaths);
+                    let tmpRecovered = (element.Recovered - NMoinsUnRecovered);
                     covid.insert("EvolutionCountries", {
                         CountryCode: codeCountry,
-                        NewConfirmed: (element.Confirmed - NMoinsUnConfirmed),
+                        NewConfirmed: tmpConfirmed,
                         TotalConfirmed: element.Confirmed,
-                        NewDeaths: (element.Deaths - NMoinsUnDeaths),
+                        NewDeaths: tmpDeaths,
                         TotalDeaths: element.Deaths,
-                        NewRecovered: (element.Recovered - NMoinsUnRecovered),
+                        NewRecovered: tmpRecovered,
                         TotalRecovered: element.Recovered,
                         Date: element.Date
                     });
@@ -249,8 +256,10 @@ selectCountriesCode = (countriesStat) => {
     let tabCodeCountries = [];
 
     countriesStat.forEach(element => {
-        let table={"id":element.CountryCode,
-                    "color":am4core.color("#488BB2")}
+        let table = {
+            "id": element.CountryCode,
+            "color": am4core.color("#488BB2")
+        }
         tabCodeCountries.push(table);
     });
     return tabCodeCountries;
@@ -261,16 +270,16 @@ resetBase = () => {
     let covid = new localStorageDB("covid", localStorage);
 
     if (covid.tableExists("Time")) {
-    covid.dropTable("Time");
+        covid.dropTable("Time");
     }
     if (covid.tableExists("Global")) {
-    covid.dropTable("Global");
+        covid.dropTable("Global");
     }
     if (covid.tableExists("Countries")) {
-    covid.dropTable("Countries");
+        covid.dropTable("Countries");
     }
     if (covid.tableExists("EvolutionCountries")) {
-    covid.dropTable("EvolutionCountries");
+        covid.dropTable("EvolutionCountries");
     }
 }
 
@@ -323,17 +332,4 @@ selectLastDateEvo = (countryCode) => {
     } else {
         return resQuery[0].Date;
     }
-}
-
-updateDB = () => {
-
-    // Initialise. If the database doesn't exist, it is created
-    let covid = new localStorageDB("covid", localStorage);
-
-    covid.dropTable("EvolutionCountries");
-    console.log("fait");
-
-    // create the "EvolutionCountries" table
-    covid.createTable("EvolutionCountries", ["CountryCode", "NewConfirmed", "TotalConfirmed", "NewDeaths", "TotalDeaths", "NewRecovered", "TotalRecovered", "Date"]);
-    console.log("Table créée => " + "EvolutionCountries");
 }
