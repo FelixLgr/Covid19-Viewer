@@ -21,6 +21,8 @@
   <!--<script src="local_storage_db_test.js"></script>-->
   <script src="local_storage_db_covid.js"></script>
   <script>
+    //resetBase();
+
     if (!dbCovidExist()) {
       createDBCovid();
       console.log("Base de donnée créé !")
@@ -29,9 +31,10 @@
       console.log("Base de donnée Update !")
     }
     console.log("Fini !")
-    console.log(selectTime());
-    console.log(selectGlobal());
-    selectCountriesCode();
+    selectCountries();
+    addEvoCountry("DE");
+    printAll();
+
   </script>
 </body>
 

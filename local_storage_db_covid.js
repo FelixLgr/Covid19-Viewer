@@ -7,6 +7,9 @@ createDBCovid = () => {
     // create the "Global" table
     covid.createTable("Global", ["NewConfirmed", "TotalConfirmed", "NewDeaths", "TotalDeaths", "NewRecovered", "TotalRecovered"]);
 
+    // create the "EvolutionCountries" table
+    covid.createTable("EvolutionCountries", ["CountryCode", "Confirmed", "Deaths", "Recovered", "Date"]);
+
     covid.commit();
 
     let settings = {
@@ -22,6 +25,8 @@ createDBCovid = () => {
         // create the table and insert records in one go
         covid.createTableWithData("Countries", response.Countries);
 
+        covid.commit();
+
         // insert global stat
         covid.insert("Global", response.Global);
 
@@ -30,7 +35,7 @@ createDBCovid = () => {
             Date: timing
         });
 
-        covid.commit()
+        covid.commit();
     });
 
     // commit the database to localStorage
@@ -42,7 +47,7 @@ dbCovidExist = () => {
     // Initialise. If the database doesn't exist, it is created
     let covid = new localStorageDB("covid", localStorage);
 
-    return covid.tableCount() === 3;
+    return covid.tableCount() === 4;
 }
 
 diffTime = () => {
@@ -54,6 +59,53 @@ diffTime = () => {
     let lastUpdate = new Date(resQuery[0].Date);
     lastUpdate.setHours(lastUpdate.getHours() + 6);
     return Date.now() - lastUpdate > 0;
+}
+
+findNameCountry = (codeCountry) => {
+
+    // Initialise. If the database doesn't exist, it is created
+    let covid = new localStorageDB("covid", localStorage);
+
+    const resQuery = covid.queryAll("Countries", {
+        query: {
+            CountryCode: codeCountry
+        }
+    });
+
+    return resQuery[0].Country;
+}
+
+addEvoCountry = (codeCountry) => {
+
+
+    // Initialise. If the database doesn't exist, it is created
+    let covid = new localStorageDB("covid", localStorage);
+
+    const nameCountry = findNameCountry(codeCountry);
+    const apiUrl = "https://api.covid19api.com/total/country/" + nameCountry;
+
+    var settings = {
+        "url": apiUrl,
+        "method": "GET",
+        "timeout": 0,
+    };
+
+    $.ajax(settings).done(function (response) {
+        console.log(response);
+        response.forEach(element => {
+            covid.insertOrUpdate("EvolutionCountries", {
+                CountryCode: codeCountry,
+                Confirmed: element.Confirmed,
+                Deaths: element.Deaths,
+                Recovered: element.Recovered,
+                Date: element.Date
+            });
+            covid.commit();
+        });
+        
+    });
+
+    covid.commit();
 }
 
 updateDBCovid = () => {
@@ -100,6 +152,8 @@ printAll = () => {
     console.log(resQuery);
     resQuery = covid.queryAll("Time");
     console.log(resQuery);
+    resQuery = covid.queryAll("EvolutionCountries");
+    console.log(resQuery);
 }
 
 selectCountriesCode = () => {
@@ -122,7 +176,8 @@ resetBase = () => {
 
     covid.dropTable("Time");
     covid.dropTable("Global");
-    covid.dropTable("Countries")
+    covid.dropTable("Countries");
+    covid.dropTable("EvolutionCountries");
 
     covid.commit();
 }

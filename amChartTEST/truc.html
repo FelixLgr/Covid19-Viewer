@@ -17,6 +17,11 @@
 
     <!-- Chart code -->
     <script>
+        var date = new Date();
+        console.log(date); // Wed Jan 01 2014 13:28:56 GMT-1000 (Hawaiian Standard Time) 
+                
+        var json = JSON.stringify(date);
+        console.log(json);  // "2014-01-01T23:28:56.782Z"
     am4core.ready(function() {
     
     // Themes begin
