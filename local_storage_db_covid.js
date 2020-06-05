@@ -191,6 +191,7 @@ updateDBCovid = () => {
         "url": "https://api.covid19api.com/summary",
         "method": "GET",
         "timeout": 0,
+        async: false
     };
 
     $.ajax(settings).done(function (response) {
@@ -321,4 +322,19 @@ selectLastDateEvo = (countryCode) => {
     } else {
         return resQuery[0].Date;
     }
+}
+
+updateDB = () => {
+
+    // Initialise. If the database doesn't exist, it is created
+    let covid = new localStorageDB("covid", localStorage);
+
+    
+    if (covid.tableExists("EvolutionCountries")) {
+        covid.dropTable("EvolutionCountries");
+    }
+
+    // create the "EvolutionCountries" table
+    covid.createTable("EvolutionCountries", ["CountryCode", "NewConfirmed", "TotalConfirmed", "NewDeaths", "TotalDeaths", "NewRecovered", "TotalRecovered", "Date"]);
+    console.log("Table créée => " + "EvolutionCountries");
 }

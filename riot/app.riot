@@ -37,7 +37,7 @@
                 state.codepays = ({
                     countrieslist: "NULL",
                 })
-                resetBase();
+                updateDB();
                 if (!dbCovidExist()) {
                     createDBCovid();
                     console.log("Base de donnée créé !")
