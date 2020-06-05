@@ -3,12 +3,24 @@ createDBCovid = () => {
     let covid = new localStorageDB("covid", localStorage);
     // create the "Time" table
     covid.createTable("Time", ["Date"]);
+    console.log("Table créée => " + covid.tableCount());
+
+
 
     // create the "Global" table
     covid.createTable("Global", ["NewConfirmed", "TotalConfirmed", "NewDeaths", "TotalDeaths", "NewRecovered", "TotalRecovered"]);
+    console.log("Table créée => " + covid.tableCount());
 
     // create the "EvolutionCountries" table
     covid.createTable("EvolutionCountries", ["CountryCode", "Confirmed", "Deaths", "Recovered", "Date"]);
+    console.log("Table créée => " + covid.tableCount());
+
+    // create the "EvolutionCountries" table
+    covid.createTable("Countries", ["Country", "CountryCode", "Slug", "NewConfirmed", "TotalConfirmed", "NewDeaths", "TotalDeaths", "NewRecovered", "TotalRecovered", "Date"]);
+    console.log("Table créée => " + covid.tableCount());
+
+
+
 
     covid.commit();
 
@@ -19,14 +31,26 @@ createDBCovid = () => {
     };
 
     $.ajax(settings).done(function (response) {
-        console.log(response.Countries);
-        console.log(response.Global);
+        console.log(response);
 
-        // create the table and insert records in one go
-        covid.createTableWithData("Countries", response.Countries);
+        response.Countries.forEach(element => {
+            covid.insert("Countries", {
+                Country: element.Country,
+                CountryCode: element.CountryCode,
+                Slug: element.Slug,
+                NewConfirmed: element.NewConfirmed,
+                TotalConfirmed: element.TotalConfirmed,
+                NewDeaths: element.NewDeaths,
+                TotalDeaths: element.TotalDeaths,
+                NewRecovered: element.NewRecovered,
+                TotalRecovered: element.TotalRecovered,
+                Date: element.Date
+            });
+            covid.commit();
+        });
 
         covid.commit();
-
+        console.log("Table créée => " + covid.tableCount());
         // insert global stat
         covid.insert("Global", response.Global);
 
@@ -35,8 +59,11 @@ createDBCovid = () => {
             Date: timing
         });
 
+
         covid.commit();
     });
+
+
 
     // commit the database to localStorage
     // all create/drop/insert/update/delete operations should be committed
@@ -46,6 +73,7 @@ createDBCovid = () => {
 dbCovidExist = () => {
     // Initialise. If the database doesn't exist, it is created
     let covid = new localStorageDB("covid", localStorage);
+    console.log(covid.tableCount());
 
     return covid.tableCount() === 4;
 }
@@ -102,7 +130,7 @@ addEvoCountry = (codeCountry) => {
             });
             covid.commit();
         });
-        
+
     });
 
     covid.commit();
@@ -122,9 +150,23 @@ updateDBCovid = () => {
     };
 
     $.ajax(settings).done(function (response) {
-        covid.dropTable("Countries")
-        // create the table and insert records in one go
-        covid.createTableWithData("Countries", response.Countries);
+        response.Countries.forEach(element => {
+            covid.insertOrUpdate("Countries", {
+                CountryCode: element.CountryCode
+            }, {
+                Country: element.Country,
+                CountryCode: element.CountryCode,
+                Slug: element.Slug,
+                NewConfirmed: element.NewConfirmed,
+                TotalConfirmed: element.TotalConfirmed,
+                NewDeaths: element.NewDeaths,
+                TotalDeaths: element.TotalDeaths,
+                NewRecovered: element.NewRecovered,
+                TotalRecovered: element.TotalRecovered,
+                Date: element.Date
+            });
+            covid.commit();
+        });
 
         // insert global stat
         covid.insert("Global", response.Global);
@@ -174,11 +216,22 @@ resetBase = () => {
     // Initialise. If the database doesn't exist, it is created
     let covid = new localStorageDB("covid", localStorage);
 
-    covid.dropTable("Time");
-    covid.dropTable("Global");
-    covid.dropTable("Countries");
-    covid.dropTable("EvolutionCountries");
+    if (covid.tableExists("Time")) {
+        covid.dropTable("Time");
+    }
+    if (covid.tableExists("Global")) {
+        covid.dropTable("Global");
+    }
+    if (covid.tableExists("Countries")) {
+        covid.dropTable("Countries");
+    }
+    if (covid.tableExists("EvolutionCountries")) {
+        covid.dropTable("EvolutionCountries");
+    }
 
+    if (covid.tableExists("test")) {
+        covid.dropTable("test");
+    }
     covid.commit();
 }
 
@@ -193,7 +246,6 @@ selectGlobal = () => {
 selectTime = () => {
     // Initialise. If the database doesn't exist, it is created
     let covid = new localStorageDB("covid", localStorage);
-
     let resQuery = covid.queryAll("Time");
     const datestr = resQuery[0].Date;
     const dateAPI = new Date(datestr);
