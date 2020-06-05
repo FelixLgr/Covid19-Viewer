@@ -30,8 +30,8 @@
                     let series = chart.series.push(new am4charts.LineSeries());
                     series.name = "Guéris";
                     series.dataFields.dateX = "year";
-                    series.dataFields.valueY = "Guéris";
-                    series.tooltipHTML = "<i class='fas fa-clinic-medical' style='vertical-align:bottom; margin-right: 10px; width:28px; height:21px; color:#009432;'></i><span style='font-size:14px; color:#000;'><b>{valueY.value}</b></span>";
+                    series.dataFields.valueY = "gueris";
+                    series.tooltipHTML = "<span style='font-size:14px; color:#000;'><i class='fas fa-shield-virus' style='vertical-align:bottom; margin-right: 10px; width:28px; height:21px;'></i><b>{valueY.value}</b></span>";
                     series.tooltipText = "[#000]{valueY.value}[/]";
                     series.tooltip.background.fill = am4core.color("#FFF");
                     series.tooltip.getStrokeFromObject = true;
@@ -44,8 +44,8 @@
                     let series2 = chart.series.push(new am4charts.LineSeries());
                     series2.name = "Cas";
                     series2.dataFields.dateX = "year";
-                    series2.dataFields.valueY = "Cas";
-                    series2.tooltipHTML = "<i class='fas fa-lungs-virus' style='vertical-align:bottom; margin-right: 10px; width:28px; height:21px; color:#0652DD;'></i><span style='font-size:14px; color:#000;'><b>{valueY.value}</b></span>";
+                    series2.dataFields.valueY = "cas";
+                    series2.tooltipHTML = "<span style='font-size:14px; color:#000;'><i class='fas fa-lungs-virus' style='vertical-align:bottom; margin-right: 10px; width:28px; height:21px;'></i><b>{valueY.value}</b></span>";
                     series2.tooltipText = "[#000]{valueY.value}[/]";
                     series2.tooltip.background.fill = am4core.color("#FFF");
                     series2.tooltip.getFillFromObject = false;
@@ -59,8 +59,8 @@
                     let series3 = chart.series.push(new am4charts.LineSeries());
                     series3.name = "Morts";
                     series3.dataFields.dateX = "year";
-                    series3.dataFields.valueY = "Morts";
-                    series3.tooltipHTML = "<i class='fas fa-skull-crossbones' style='vertical-align:bottom; margin-right: 10px; width:28px; height:21px; color:#EA2027;'></i><span style='font-size:14px; color:#000;'><b>{valueY.value}</b></span>";
+                    series3.dataFields.valueY = "morts";
+                    series3.tooltipHTML = "<span style='font-size:14px; color:#000;'><i class='fas fa-skull-crossbones' style='vertical-align:bottom; margin-right: 10px; width:28px; height:21px;'></i><b>{valueY.value}</b></span>";
                     series3.tooltipText = "[#000]{valueY.value}[/]";
                     series3.tooltip.background.fill = am4core.color("#FFF");
                     series3.tooltip.getFillFromObject = false;
