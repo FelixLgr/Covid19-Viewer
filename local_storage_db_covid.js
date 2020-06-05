@@ -331,6 +331,7 @@ updateDB = () => {
     let covid = new localStorageDB("covid", localStorage);
 
     covid.dropTable("EvolutionCountries");
+    console.log("fait");
 
     // create the "EvolutionCountries" table
     covid.createTable("EvolutionCountries", ["CountryCode", "NewConfirmed", "TotalConfirmed", "NewDeaths", "TotalDeaths", "NewRecovered", "TotalRecovered", "Date"]);
