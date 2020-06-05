@@ -113,7 +113,7 @@ addEvoCountry = (codeCountry) => {
     const nameCountry = findNameCountry(codeCountry);
     const apiUrl = "https://api.covid19api.com/total/country/" + nameCountry;
 
-    var settings = {
+    let settings = {
         "url": apiUrl,
         "method": "GET",
         "timeout": 0,
@@ -205,7 +205,9 @@ selectCountriesCode = (countriesStat) => {
     let tabCodeCountries = [];
 
     countriesStat.forEach(element => {
-        tabCodeCountries.push(element.CountryCode);
+        let table={"id":element.CountryCode,
+                    "color":am4core.color("#488BB2")}
+        tabCodeCountries.push(table);
     });
     return tabCodeCountries;
 }
