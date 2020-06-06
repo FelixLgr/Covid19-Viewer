@@ -112,7 +112,7 @@
                         let chart2 = am4core.create("chartdiv2", am4charts.XYChart);
                         chart2.logo.disabled = true;
 
-                        chart2.data = props.contenu.data
+                        chart2.data = stats
 
                         chart2.dateFormatter.inputDateFormat = "MMM dd";
                         let dateAxis2 = chart2.xAxes.push(new am4charts.DateAxis());
