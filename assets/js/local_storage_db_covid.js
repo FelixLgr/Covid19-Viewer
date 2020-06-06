@@ -11,11 +11,11 @@ createDBCovid = () => {
     covid.createTable("Global", ["NewConfirmed", "TotalConfirmed", "NewDeaths", "TotalDeaths", "NewRecovered", "TotalRecovered"]);
     console.log("Table créée => " + "Global");
 
-    
+
     // create the "EvolutionCountries" table
     covid.createTable("EvolutionCountries", ["CountryCode", "NewConfirmed", "TotalConfirmed", "NewDeaths", "TotalDeaths", "NewRecovered", "TotalRecovered", "Date"]);
     console.log("Table créée => " + "EvolutionCountries");
-    
+
 
 
     // create the "Countries" table
@@ -312,6 +312,17 @@ selectCountries = () => {
     let covid = new localStorageDB("covid", localStorage);
 
     return covid.queryAll("Countries");
+}
+
+selectEvoCountriesByCode = (countryCode) => {
+    // Initialise. If the database doesn't exist, it is created
+    let covid = new localStorageDB("covid", localStorage);
+
+    return covid.queryAll("EvolutionCountries", "books", {
+        query: {
+            "CountryCode": countryCode
+        }
+    });
 }
 
 selectLastDateEvo = (countryCode) => {

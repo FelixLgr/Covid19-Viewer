@@ -11,8 +11,8 @@
         export default {
             onMounted(props, state) {
                 let href = location.href;
-                let countrycode = href.match(/([^\/]*)\/*$/)[1]
-                let countryname
+                let countrycode = href.match(/([^\/]*)\/*$/)[1];
+                let countryname;
 
                 for (let num in props.contenu.countrieslist) {
                     if (props.contenu.countrieslist[num].id === countrycode) {
@@ -27,30 +27,36 @@
 
                     am4core.ready(function () {
 
+                        addEvoCountry(countrycode);
+                        let stats = selectEvoCountriesByCode(countrycode);
+                        console.log(stats);
+                        stats.forEach(element => {
+                            element.Date = new Date(element.Date);
+                        });
+
+
+
                         am4core.useTheme(am4themes_animated);
 
                         let chart = am4core.create("chartdiv", am4charts.XYChart);
                         chart.logo.disabled = true;
 
-                        chart.data = props.contenu.data
+                        chart.data = stats
 
-                        chart.dateFormatter.inputDateFormat = "yyyy";
+                        chart.dateFormatter.inputDateFormat = "MMM dd";
                         let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
                         dateAxis.renderer.minGridDistance = 60;
                         dateAxis.startLocation = 0.5;
                         dateAxis.endLocation = 0.5;
-                        dateAxis.baseInterval = {
-                            timeUnit: "year",
-                            count: 1
-                        }
+                        dateAxis.baseInterval = { timeUnit: "day", count: 1 }
 
                         let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
                         valueAxis.tooltip.disabled = true;
 
                         let series = chart.series.push(new am4charts.LineSeries());
                         series.name = "Guéris";
-                        series.dataFields.dateX = "year";
-                        series.dataFields.valueY = "gueris";
+                        series.dataFields.dateX = "Date";
+                        series.dataFields.valueY = "TotalRecovered";
                         series.tooltipHTML = "<span style='font-size:14px; color:#000;'><i class='fas fa-shield-virus' style='vertical-align:bottom; margin-right: 10px; width:28px; height:21px;'></i><b>{valueY.value}</b></span>";
                         series.tooltipText = "[#000]{valueY.value}[/]";
                         series.tooltip.background.fill = am4core.color("#FFF");
@@ -63,8 +69,8 @@
 
                         let series2 = chart.series.push(new am4charts.LineSeries());
                         series2.name = "Cas";
-                        series2.dataFields.dateX = "year";
-                        series2.dataFields.valueY = "cas";
+                        series2.dataFields.dateX = "Date";
+                        series2.dataFields.valueY = "TotalConfirmed";
                         series2.tooltipHTML = "<span style='font-size:14px; color:#000;'><i class='fas fa-lungs-virus' style='vertical-align:bottom; margin-right: 10px; width:28px; height:21px;'></i><b>{valueY.value}</b></span>";
                         series2.tooltipText = "[#000]{valueY.value}[/]";
                         series2.tooltip.background.fill = am4core.color("#FFF");
@@ -78,8 +84,8 @@
 
                         let series3 = chart.series.push(new am4charts.LineSeries());
                         series3.name = "Morts";
-                        series3.dataFields.dateX = "year";
-                        series3.dataFields.valueY = "morts";
+                        series3.dataFields.dateX = "Date";
+                        series3.dataFields.valueY = "TotalDeaths";
                         series3.tooltipHTML = "<span style='font-size:14px; color:#000;'><i class='fas fa-skull-crossbones' style='vertical-align:bottom; margin-right: 10px; width:28px; height:21px;'></i><b>{valueY.value}</b></span>";
                         series3.tooltipText = "[#000]{valueY.value}[/]";
                         series3.tooltip.background.fill = am4core.color("#FFF");
@@ -106,23 +112,20 @@
 
                         chart2.data = props.contenu.data
 
-                        chart2.dateFormatter.inputDateFormat = "yyyy";
+                        chart2.dateFormatter.inputDateFormat = "MMM dd";
                         let dateAxis2 = chart2.xAxes.push(new am4charts.DateAxis());
                         dateAxis2.renderer.minGridDistance = 60;
                         dateAxis2.startLocation = 0.5;
                         dateAxis2.endLocation = 0.5;
-                        dateAxis2.baseInterval = {
-                            timeUnit: "year",
-                            count: 1
-                        }
+                        dateAxis2.baseInterval = { timeUnit: "day", count: 1 }
 
                         let valueAxis2 = chart2.yAxes.push(new am4charts.ValueAxis());
                         valueAxis2.tooltip.disabled = true;
 
                         let series4 = chart2.series.push(new am4charts.LineSeries());
                         series4.name = "Guéris";
-                        series4.dataFields.dateX = "year";
-                        series4.dataFields.valueY = "gueris";
+                        series4.dataFields.dateX = "Date";
+                        series4.dataFields.valueY = "NewRecovered";
                         series4.tooltipHTML = "<span style='font-size:14px; color:#000;'><i class='fas fa-shield-virus' style='vertical-align:bottom; margin-right: 10px; width:28px; height:21px;'></i><b>{valueY.value}</b></span>";
                         series4.tooltipText = "[#000]{valueY.value}[/]";
                         series4.tooltip.background.fill = am4core.color("#FFF");
@@ -135,8 +138,8 @@
 
                         let series5 = chart2.series.push(new am4charts.LineSeries());
                         series5.name = "Cas";
-                        series5.dataFields.dateX = "year";
-                        series5.dataFields.valueY = "cas";
+                        series5.dataFields.dateX = "Date";
+                        series5.dataFields.valueY = "NewConfirmed";
                         series5.tooltipHTML = "<span style='font-size:14px; color:#000;'><i class='fas fa-lungs-virus' style='vertical-align:bottom; margin-right: 10px; width:28px; height:21px;'></i><b>{valueY.value}</b></span>";
                         series5.tooltipText = "[#000]{valueY.value}[/]";
                         series5.tooltip.background.fill = am4core.color("#FFF");
@@ -150,8 +153,8 @@
 
                         let series6 = chart2.series.push(new am4charts.LineSeries());
                         series6.name = "Morts";
-                        series6.dataFields.dateX = "year";
-                        series6.dataFields.valueY = "morts";
+                        series6.dataFields.dateX = "Date";
+                        series6.dataFields.valueY = "NewDeaths";
                         series6.tooltipHTML = "<span style='font-size:14px; color:#000;'><i class='fas fa-skull-crossbones' style='vertical-align:bottom; margin-right: 10px; width:28px; height:21px;'></i><b>{valueY.value}</b></span>";
                         series6.tooltipText = "[#000]{valueY.value}[/]";
                         series6.tooltip.background.fill = am4core.color("#FFF");
