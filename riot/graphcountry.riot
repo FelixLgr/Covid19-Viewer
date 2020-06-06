@@ -25,14 +25,16 @@
 
                     _("countryname").innerText = countryname + " (" + countrycode + ")"
 
-                    am4core.ready(function () {
-
-                        addEvoCountry(countrycode);
+                    addEvoCountry(countrycode);
                         let stats = selectEvoCountriesByCode(countrycode);
                         console.log(stats);
                         stats.forEach(element => {
                             element.Date = new Date(element.Date);
                         });
+
+                    am4core.ready(function () {
+
+                        
 
 
 

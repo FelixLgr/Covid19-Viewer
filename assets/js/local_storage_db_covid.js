@@ -318,9 +318,13 @@ selectEvoCountriesByCode = (countryCode) => {
     // Initialise. If the database doesn't exist, it is created
     let covid = new localStorageDB("covid", localStorage);
 
-    return covid.queryAll("EvolutionCountries", "books", {
-        query: {
-            "CountryCode": countryCode
+    return covid.queryAll("EvolutionCountries", {
+        query: function(row) {    // the callback function is applied to every row in the table
+            if(row.CountryCode === countryCode) {       // if it returns true, the row is selected
+                return true;
+            } else {
+                return false;
+            }
         }
     });
 }
