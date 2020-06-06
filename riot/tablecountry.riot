@@ -29,7 +29,7 @@
                         + "<td>"+formatInt(line.TotalConfirmed)+"</td>"
                         + "<td>"+formatInt(line.TotalRecovered)+"</td>"
                         + "<td>"+formatInt(line.TotalDeaths)+"</td>"
-                    $('table').find('tbody').append("<tr>"+cell+"</tr>");
+                    $('table').find('tbody').append("<tr onclick='hreftocountry(\""+line.CountryCode+"\");'>"+cell+"</tr>");
                 }
             }
         }

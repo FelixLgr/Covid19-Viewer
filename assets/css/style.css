@@ -1,4 +1,9 @@
 #chartdiv {
     width: 100%;
-    height: calc(100vh - 88px);
+    height: calc(100vh - 165px);
+}
+
+#chartdiv2 {
+    width: 100%;
+    height: calc(100vh - 120px);
 }

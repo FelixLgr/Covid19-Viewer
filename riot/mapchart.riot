@@ -45,7 +45,7 @@
                 polygonTemplate.propertyFields.fill = "color";
                 polygonTemplate.events.on("hit", function (ev) {
                     let data = ev.target.dataItem.dataContext;
-                    alert(data.name + " (" + data.id + ")")
+                    hreftocountry(data.id);
                 });
 
                 // Create hover state and set alternative fill color
