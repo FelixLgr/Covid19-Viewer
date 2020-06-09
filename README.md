@@ -29,4 +29,5 @@ des données relatives à la pandémie du covid 19.
 - [Bootstrap](https://getbootstrap.com/) `v4.5.0` 
 - [FontAwesome](https://fontawesome.com/) `v5.13.0` 
 - [amcharts](https://www.amcharts.com/) `v4.9.24` 
-- [localStorageDB](https://github.com/knadh/localStorageDB) `v2.3.2` 
+- [datatables](https://datatables.net/) `v1.10.21` 
+- [localStorageDB](https://github.com/knadh/localStorageDB) `v2.3.2`

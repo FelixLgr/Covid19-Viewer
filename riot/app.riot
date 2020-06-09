@@ -62,17 +62,18 @@
 
                 let globalStat = selectGlobal()
                 let countriesStat = selectCountries()
+
                 
                 
 
                 state.global = ({
                     date: selectTime(),
-                    covidedGlobal: formatInt(globalStat.TotalConfirmed),
-                    deathGlobal: formatInt(globalStat.TotalDeaths),
-                    healedGlobal: formatInt(globalStat.TotalRecovered),
-                    covidedToday: formatInt(globalStat.NewConfirmed),
-                    deathToday: formatInt(globalStat.NewDeaths),
-                    healedToday: formatInt(globalStat.NewRecovered)
+                    covidedGlobal: globalStat.TotalConfirmed,
+                    deathGlobal: globalStat.TotalDeaths,
+                    healedGlobal: globalStat.TotalRecovered,
+                    covidedToday: globalStat.NewConfirmed,
+                    deathToday: globalStat.NewDeaths,
+                    healedToday: globalStat.NewRecovered
                 })
 
                 state.pays = ({
