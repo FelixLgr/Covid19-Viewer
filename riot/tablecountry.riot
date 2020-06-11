@@ -1,44 +1,42 @@
 <tablecountry>
     <div class="mb-4">
-    <h2>Liste des pays</h2>
-    <div class="table-responsive">
-        <table id="tablepays" class="table table-hover" style="width:100%">
-            <thead class="thead-dark">
-            <tr>
-                <th scope="col">Pays</th>
-                <th scope="col">Cas</th>
-                <th scope="col">Gueris</th>
-                <th scope="col">Morts</th>
-                <th scope="col">Cas Total</th>
-                <th scope="col">Guéris Total</th>
-                <th scope="col">Morts Total</th>
-            </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-    </div>
+        <h2>Liste des pays</h2>
+        <div class="table-responsive">
+            <table id="tablepays" class="table table-hover" style="width:100%">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Pays</th>
+                    <th scope="col">Cas</th>
+                    <th scope="col">Gueris</th>
+                    <th scope="col">Morts</th>
+                    <th scope="col">Cas Total</th>
+                    <th scope="col">Guéris Total</th>
+                    <th scope="col">Morts Total</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
     </div>
     <script>
         export default {
             onMounted(props, state) {
                 $(document).ready(function () {
-                        $('#tablepays').DataTable({
-                            "language": {
-                                "lengthMenu": "Afficher _MENU_ pays par page",
-                                "zeroRecords": "Aucun pays n'a été trouvé",
-                                "info": "Page _PAGE_ sur _PAGES_",
-                                "infoEmpty": "Aucune données disponible",
-                                "search": "Pays:",
-                                "paginate": {
-                                    "next": "Suivant",
-                                    "previous": "Précedent"
-                                }
+                    $('#tablepays').DataTable({
+                        "language": {
+                            "lengthMenu": "Afficher _MENU_ pays par page",
+                            "zeroRecords": "Aucun pays n'a été trouvé",
+                            "info": "Page _PAGE_ sur _PAGES_",
+                            "infoEmpty": "Aucune données disponible",
+                            "search": "Pays:",
+                            "paginate": {
+                                "next": "Suivant",
+                                "previous": "Précedent"
                             }
-                        });
-                    }
-                )
-                ;
+                        }
+                    });
+                });
                 for (let numPays in props.contenu.listpays) {
                     let line = props.contenu.listpays[numPays]
                     let cell = "<th>" + line.Country + "</th>"
@@ -58,12 +56,12 @@
         table.dataTable thead .sorting_asc::after,
         table.dataTable thead .sorting::before,
         table.dataTable thead .sorting_asc::before {
-            display:none;
+            display: none;
         }
 
         table.dataTable thead .sorting_desc::after,
         table.dataTable thead .sorting_desc::before {
-            display:none;
+            display: none;
         }
 
         table.dataTable thead .sorting {
